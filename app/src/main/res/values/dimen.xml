@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="ratusha_latitude" type="dimen" format="float">48.922739</item>
+    <item name="ratusha_longitude" type="dimen" format="float">24.710388</item>
+
+    <item name="earth_diameter" type="dimen" format="float">40000.0</item>
+    <item name="if_city_radius" type="dimen" format="float">5.0</item>
+
+    <dimen name="dialog_height">80dp</dimen>
+    <dimen name="progress_size">45dp</dimen>
+    <dimen name="about_text_size">16dp</dimen>
+
+</resources>

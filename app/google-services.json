@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "46470659009",
+    "project_id": "accessibilityif"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46470659009:android:072a9492727ec24e",
+        "android_client_info": {
+          "package_name": "com.igorko.accesibleif"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46470659009-q5rjr01fjesgaa8jbooloumeui9e98ud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.igorko.accesibleif",
+            "certificate_hash": "65EF5FF29EEEE5CC9225277A383E77516FCAA93F"
+          }
+        },
+        {
+          "client_id": "46470659009-ooog56oshesdfi2706nh1fs6354v1c7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8N44VNxqIoAwKEm3aI4vNReevuo5xYC0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

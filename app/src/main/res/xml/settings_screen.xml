@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="map_notifications"
+        android:title="@string/map_settings">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/map_limit_preference_checkbox_id"
+            android:summary="@string/limit_city_area_desription"
+            android:title="@string/limit_city_area" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="location_notifications"
+        android:title="@string/location_settings">
+
+        <CheckBoxPreference
+            android:id="@+id/checkbox_preference"
+            android:defaultValue="false"
+            android:key="@string/location_preference_checkbox_id"
+            android:summary="@string/enable_current_location_desription"
+            android:textColor="@color/color_accent"
+            android:textStyle="bold"
+            android:title="@string/enable_current_location" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="@string/location_preference_checkbox_id"
+            android:key="@string/enable_update_current_location_checkbox_id"
+            android:summary="@string/enable_update_current_location_desription"
+            android:title="@string/enable_update_current_location" />
+    </PreferenceCategory>
+</PreferenceScreen>
