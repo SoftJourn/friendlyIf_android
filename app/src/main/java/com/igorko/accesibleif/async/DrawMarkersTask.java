@@ -3,14 +3,18 @@ package com.igorko.accesibleif.async;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.igorko.accesibleif.activity.MainActivity;
-import com.igorko.accesibleif.models.Data;
+import com.igorko.accesibleif.models.Bounds;
+import com.igorko.accesibleif.models.Element;
+import com.igorko.accesibleif.models.Tags;
 import com.igorko.accesibleif.utils.Const;
 import com.igorko.accesibleif.utils.IconsUtils;
 import com.igorko.accesibleif.utils.MarkerUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +26,10 @@ public class DrawMarkersTask extends AsyncTask<Float, Object, ArrayList<MarkerOp
 
     private Activity mActivity;
     private float mZoomLevel;
-    private List<Data.Element> mElementList;
+    private List<Element> mElementList;
     private ArrayList<MarkerOptions> mMarkerList;
 
-    public DrawMarkersTask(MainActivity activity, List<Data.Element> elementList,
+    public DrawMarkersTask(MainActivity activity, List<Element> elementList,
                            ArrayList<MarkerOptions> markerList) {
         mActivity = activity;
         mElementList = elementList;
@@ -46,7 +50,7 @@ public class DrawMarkersTask extends AsyncTask<Float, Object, ArrayList<MarkerOp
             if ((mZoomLevel == 0.0) || (mZoomLevel >= TINY_ZOOM_LEVEL)) {
                 mMarkerList.clear();
                 BitmapDescriptor markerIcon = null;
-                for (Data.Element element : mElementList) {
+                for (Element element : mElementList) {
                     if (element != null && element.getTags() != null && element.getTags().getAmenity() != null) {
                         String amenity = element.getTags().getAmenity();
                         if (amenity != null) {
@@ -70,7 +74,7 @@ public class DrawMarkersTask extends AsyncTask<Float, Object, ArrayList<MarkerOp
                             }
                         }
                     } else {
-                        Data.Element.Tags tags = element.getTags();
+                        Tags tags = element.getTags();
                         if (tags.getShop() != null) {
                             markerIcon = IconsUtils.setShopIcon(element);
                         }
@@ -94,7 +98,7 @@ public class DrawMarkersTask extends AsyncTask<Float, Object, ArrayList<MarkerOp
                 }
             } else if (mZoomLevel < TINY_ZOOM_LEVEL) {
                 mMarkerList.clear();
-                for (Data.Element element : mElementList) {
+                for (Element element : mElementList) {
                     if (element != null) {
                         BitmapDescriptor markerIcon = IconsUtils.setTinyIcon(element);
                         MarkerOptions marker = addMarkerElement(element, markerIcon);
@@ -118,12 +122,12 @@ public class DrawMarkersTask extends AsyncTask<Float, Object, ArrayList<MarkerOp
         }
     }
 
-    private MarkerOptions addMarkerElement(Data.Element element, BitmapDescriptor markerIcon) {
+    private MarkerOptions addMarkerElement(Element element, BitmapDescriptor markerIcon) {
         String name = element.getTags().getName();
 
         LatLng coordinates;
         if (element.getBounds() != null) {
-            Data.Bounds bounds = element.getBounds();
+            Bounds bounds = element.getBounds();
             double lat = (bounds.getMinlat() + bounds.getMaxlat()) / 2;
             double lon = (bounds.getMinlon() + bounds.getMaxlon()) / 2;
             coordinates = new LatLng(lat, lon);

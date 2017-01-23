@@ -3,7 +3,7 @@ package com.igorko.accesibleif.utils;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.igorko.accesibleif.R;
-import com.igorko.accesibleif.models.Data;
+import com.igorko.accesibleif.models.Element;
 
 /**
  * Created by Igorko on 17.10.2016.
@@ -11,7 +11,7 @@ import com.igorko.accesibleif.models.Data;
 
 public class IconsUtils implements Const {
 
-    public static BitmapDescriptor setDefaultIcon(Data.Element element){
+    public static BitmapDescriptor setDefaultIcon(Element element){
         //set wheelchar icon color
         String wheelchar = element.getTags().getWheelchair();
         int resid;
@@ -36,7 +36,7 @@ public class IconsUtils implements Const {
         return BitmapDescriptorFactory.fromResource(resid);
     }
 
-    public static BitmapDescriptor setHospitalIcon(Data.Element element){
+    public static BitmapDescriptor setHospitalIcon(Element element){
         //set wheelchar icon color
         String wheelchar = element.getTags().getWheelchair();
         int resid;
@@ -61,7 +61,7 @@ public class IconsUtils implements Const {
         return BitmapDescriptorFactory.fromResource(resid);
     }
 
-    public static BitmapDescriptor setPharmacyIcon(Data.Element element){
+    public static BitmapDescriptor setPharmacyIcon(Element element){
         //set wheelchar icon color
         String wheelchar = element.getTags().getWheelchair();
         int resid;
@@ -91,7 +91,7 @@ public class IconsUtils implements Const {
         return BitmapDescriptorFactory.fromResource(resid);
     }
 
-    public static BitmapDescriptor setRailwayIcon(Data.Element element){
+    public static BitmapDescriptor setRailwayIcon(Element element){
         //set wheelchar icon color
         String wheelchar = element.getTags().getWheelchair();
         int resid;
@@ -121,7 +121,7 @@ public class IconsUtils implements Const {
         return BitmapDescriptorFactory.fromResource(resid);
     }
 
-    public static BitmapDescriptor setAirportIcon(Data.Element element){
+    public static BitmapDescriptor setAirportIcon(Element element){
         //set wheelchar icon color
         String wheelchar = element.getTags().getWheelchair();
         int resid;
@@ -151,7 +151,7 @@ public class IconsUtils implements Const {
         return BitmapDescriptorFactory.fromResource(resid);
     }
 
-    /*public static BitmapDescriptor setSmallIcon(Data.Element element){
+    /*public static BitmapDescriptor setSmallIcon(Element element){
         //set wheelchar icon color
         String wheelchar = element.getTags().getWheelchair();
         int resid;
@@ -180,7 +180,7 @@ public class IconsUtils implements Const {
         return BitmapDescriptorFactory.fromResource(resid);
     }*/
 
-    public static BitmapDescriptor setTinyIcon(Data.Element element){
+    public static BitmapDescriptor setTinyIcon(Element element){
         //set wheelchar icon color
         String wheelchar = element.getTags().getWheelchair();
         int resid;
@@ -209,7 +209,7 @@ public class IconsUtils implements Const {
         return BitmapDescriptorFactory.fromResource(resid);
     }
 
-    public static BitmapDescriptor setShopIcon(Data.Element element){
+    public static BitmapDescriptor setShopIcon(Element element){
         //set wheelchar icon color
         String wheelchar = element.getTags().getWheelchair();
         int resid;

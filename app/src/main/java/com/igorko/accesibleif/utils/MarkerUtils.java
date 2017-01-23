@@ -14,7 +14,8 @@ import com.igorko.accesibleif.activity.MainActivity;
 import com.igorko.accesibleif.app.AppContext;
 import com.igorko.accesibleif.async.DrawMarkersTask;
 import com.igorko.accesibleif.manager.PreferencesManager;
-import com.igorko.accesibleif.models.Data;
+import com.igorko.accesibleif.models.Bounds;
+import com.igorko.accesibleif.models.Element;
 import java.util.ArrayList;
 
 /**
@@ -34,9 +35,9 @@ public class MarkerUtils implements Const{
         return mInstance;
     }
 
-    public ArrayList<MarkerOptions> getAllMarkers(ArrayList<Data.Element> elementList){
+    public ArrayList<MarkerOptions> getAllMarkers(ArrayList<Element> elementList){
         ArrayList<MarkerOptions> markerList = new ArrayList();
-        for (Data.Element element : elementList) {
+        for (Element element : elementList) {
             if (element != null) {
                 markerList = fillMarkerList(element, IconsUtils.setDefaultIcon(element));
             }
@@ -44,9 +45,9 @@ public class MarkerUtils implements Const{
         return markerList;
     }
 
-    public ArrayList<MarkerOptions> getPharmacyMarkers(ArrayList<Data.Element> elementList){
+    public ArrayList<MarkerOptions> getPharmacyMarkers(ArrayList<Element> elementList){
         ArrayList<MarkerOptions> markerList = new ArrayList();
-        for (Data.Element element : elementList) {
+        for (Element element : elementList) {
             if (element != null) {
                 markerList = fillMarkerList(element, IconsUtils.setPharmacyIcon(element));
             }
@@ -54,9 +55,9 @@ public class MarkerUtils implements Const{
         return markerList;
     }
 
-    public ArrayList<MarkerOptions> getHospitalMarkers(ArrayList<Data.Element> elementList){
+    public ArrayList<MarkerOptions> getHospitalMarkers(ArrayList<Element> elementList){
         ArrayList<MarkerOptions> markerList = new ArrayList();
-        for (Data.Element element : elementList) {
+        for (Element element : elementList) {
             if (element != null) {
                 markerList = fillMarkerList(element, IconsUtils.setHospitalIcon(element));
             }
@@ -64,9 +65,9 @@ public class MarkerUtils implements Const{
         return markerList;
     }
 
-    public ArrayList<MarkerOptions> getShopMarkers(ArrayList<Data.Element> elementList){
+    public ArrayList<MarkerOptions> getShopMarkers(ArrayList<Element> elementList){
         ArrayList<MarkerOptions> markerList = new ArrayList();
-        for (Data.Element element : elementList) {
+        for (Element element : elementList) {
             if (element != null) {
                 markerList = fillMarkerList(element, IconsUtils.setShopIcon(element));
             }
@@ -74,7 +75,7 @@ public class MarkerUtils implements Const{
         return markerList;
     }
 
-    private ArrayList<MarkerOptions> fillMarkerList(Data.Element element, BitmapDescriptor markerIcon){
+    private ArrayList<MarkerOptions> fillMarkerList(Element element, BitmapDescriptor markerIcon){
         ArrayList<MarkerOptions> markerList = new ArrayList();
         if (element != null && markerIcon != null) {
             MarkerOptions marker = addMarkerElement(element, markerIcon);
@@ -83,11 +84,11 @@ public class MarkerUtils implements Const{
         return markerList;
     }
 
-    private MarkerOptions addMarkerElement(Data.Element element, BitmapDescriptor markerIcon) {
+    private MarkerOptions addMarkerElement(Element element, BitmapDescriptor markerIcon) {
         String name = element.getTags().getName();
         LatLng coordinates;
         if (element.getBounds() != null) {
-            Data.Bounds bounds = element.getBounds();
+            Bounds bounds = element.getBounds();
             double lat = (bounds.getMinlat() + bounds.getMaxlat()) / 2;
             double lon = (bounds.getMinlon() + bounds.getMaxlon()) / 2;
             coordinates = new LatLng(lat, lon);
@@ -109,7 +110,7 @@ public class MarkerUtils implements Const{
     }
 
     public void drawMarkers(MainActivity activity, GoogleMap map, ArrayList<MarkerOptions> markersList, CameraPosition cameraPosition,
-                             ArrayList<Data.Element> elementList, float previousZoomLevel, boolean mapIsTouched, boolean cameraMoved) {
+                             ArrayList<Element> elementList, float previousZoomLevel, boolean mapIsTouched, boolean cameraMoved) {
         if (markersList != null && !markersList.isEmpty()) {
             float currentZoom = 0;
 

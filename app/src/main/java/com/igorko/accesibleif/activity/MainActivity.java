@@ -39,6 +39,7 @@ import com.igorko.accesibleif.fragments.AboutUsFagment;
 import com.igorko.accesibleif.fragments.SettingsFagment;
 import com.igorko.accesibleif.manager.PreferencesManager;
 import com.igorko.accesibleif.models.Data;
+import com.igorko.accesibleif.models.Element;
 import com.igorko.accesibleif.retrofit.ApiManager;
 import com.igorko.accesibleif.retrofit.NetworkCallback;
 import com.igorko.accesibleif.services.LocationService;
@@ -65,7 +66,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private int mSelectedMenuPosition;
     private ArrayList<MarkerOptions> mMarkerList;
     private boolean mMapIsTouched = false;
-    private ArrayList<Data.Element> mElementList;
+    private ArrayList<Element> mElementList;
     private boolean mIsIconsTiny;
     private float mZoomLevel;
     private float mPreviousZoomLevel;
