@@ -30,8 +30,12 @@ public class Navigaton implements Extras{
         sendEmail(activity, activity.getString(R.string.developer_email));
     }
 
-    public static void sendEmailToDataFiller(Activity activity) {
-        sendEmail(activity, activity.getString(R.string.data_adding_email));
+    public static void sendEmailToDataFillerOne(Activity activity) {
+        sendEmail(activity, activity.getString(R.string.data_adding_email_1));
+    }
+
+    public static void sendEmailToDataFillerTwo(Activity activity) {
+        sendEmail(activity, activity.getString(R.string.data_adding_email_2));
     }
 
     private static void sendEmail(Activity activity, String receiverEmail){

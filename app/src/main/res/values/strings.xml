@@ -61,8 +61,11 @@
     <string name="developer_email">igorkoromanchuk@gmail.com</string>
 
     <string name="data_adding">Додавання даних:</string>
-    <string name="data_adding_name">Дороніна Тетяна</string>
-    <string name="data_adding_email">tanyadewdrop@gmail.com</string>
+    <string name="data_adding_name_1">Дороніня Тетяна</string>
+    <string name="data_adding_email_1">tanyadewdrop@gmail.com</string>
+
+    <string name="data_adding_name_2">Гураль Ярослав</string>
+    <string name="data_adding_email_2">yarik9937@gmail.com</string>
 
     <string name="default_error">Помилка</string>
     <string name="no_internet_connection">Немає з\'єднання з інтернетом</string>

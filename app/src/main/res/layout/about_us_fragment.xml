@@ -41,7 +41,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="7dp"
                 android:gravity="center_vertical"
-                android:text="TEST"
                 android:textColor="@color/dialog_text_color"
                 android:textSize="@dimen/about_text_size" />
         </LinearLayout>
@@ -115,20 +114,41 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/data_adding_name"
+            android:text="@string/data_adding_name_1"
             android:textColor="@color/dialog_text_color"
             android:textSize="@dimen/about_text_size" />
 
         <TextView
-            android:id="@+id/data_filler_email_txt"
+            android:id="@+id/data_filler_email_txt_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/data_adding_email"
+            android:text="@string/data_adding_email_1"
             android:textColor="@color/color_primary"
             android:textSize="@dimen/about_text_size" />
 
         <ImageView
-            android:id="@+id/data_filler_email_img"
+            android:id="@+id/data_filler_email_img_1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/mail" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/data_adding_name_2"
+            android:textColor="@color/dialog_text_color"
+            android:textSize="@dimen/about_text_size" />
+
+        <TextView
+            android:id="@+id/data_filler_email_txt_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/data_adding_email_2"
+            android:textColor="@color/color_primary"
+            android:textSize="@dimen/about_text_size" />
+
+        <ImageView
+            android:id="@+id/data_filler_email_img_2"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@mipmap/mail" />

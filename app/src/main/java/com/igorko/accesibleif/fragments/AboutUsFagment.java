@@ -22,8 +22,10 @@ public class AboutUsFagment extends Fragment implements View.OnClickListener{
     private TextView mWebSite;
     private TextView mDevMailTxt;
     private ImageView mDevMailImage;
-    private TextView mFillerMailTxt;
-    private ImageView mFillerMailImage;
+    private TextView mFillerOneMailTxt;
+    private TextView mFillerTwoMailTxt;
+    private ImageView mFillerOneMailImage;
+    private ImageView mFillerTwoMailImage;
 
     public static AboutUsFagment newInstance() {
         AboutUsFagment aboutUsFagment = new AboutUsFagment();
@@ -37,15 +39,20 @@ public class AboutUsFagment extends Fragment implements View.OnClickListener{
         mWebSite =(TextView) view.findViewById(R.id.website);
         mDevMailTxt = (TextView) view.findViewById(R.id.developer_email_txt);
         mDevMailImage = (ImageView) view.findViewById(R.id.developer_email_img);
-        mFillerMailTxt = (TextView) view.findViewById(R.id.data_filler_email_txt);
-        mFillerMailImage = (ImageView) view.findViewById(R.id.data_filler_email_img);
+        mFillerOneMailTxt = (TextView) view.findViewById(R.id.data_filler_email_txt_1);
+        mFillerOneMailImage = (ImageView) view.findViewById(R.id.data_filler_email_img_1);
+        mFillerTwoMailTxt = (TextView) view.findViewById(R.id.data_filler_email_txt_2);
+        mFillerTwoMailImage = (ImageView) view.findViewById(R.id.data_filler_email_img_2);
 
         mAppVersionTxt.setText(AppContext.getInstance().getAppVersion(getActivity()));
         mWebSite.setOnClickListener(this);
         mDevMailTxt.setOnClickListener(this);
         mDevMailImage.setOnClickListener(this);
-        mFillerMailTxt.setOnClickListener(this);
-        mFillerMailImage.setOnClickListener(this);
+
+        mFillerOneMailTxt.setOnClickListener(this);
+        mFillerOneMailImage.setOnClickListener(this);
+        mFillerTwoMailTxt.setOnClickListener(this);
+        mFillerTwoMailImage.setOnClickListener(this);
 
         return view;
     }
@@ -62,11 +69,17 @@ public class AboutUsFagment extends Fragment implements View.OnClickListener{
             case R.id.developer_email_img:
                 Navigaton.sendEmailToDeveloper(getActivity());
                 break;
-            case R.id.data_filler_email_txt:
-                Navigaton.sendEmailToDataFiller(getActivity());
+            case R.id.data_filler_email_txt_1:
+                Navigaton.sendEmailToDataFillerOne(getActivity());
                 break;
-            case R.id.data_filler_email_img:
-                Navigaton.sendEmailToDataFiller(getActivity());
+            case R.id.data_filler_email_img_1:
+                Navigaton.sendEmailToDataFillerOne(getActivity());
+                break;
+            case R.id.data_filler_email_txt_2:
+                Navigaton.sendEmailToDataFillerTwo(getActivity());
+                break;
+            case R.id.data_filler_email_img_2:
+                Navigaton.sendEmailToDataFillerTwo(getActivity());
                 break;
         }
     }
