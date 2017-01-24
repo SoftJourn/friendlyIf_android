@@ -23,7 +23,7 @@
     <string name="settings_title">Налаштування</string>
     <string name="about_title">Про програму</string>
 
-    <string name="description1">Програма розроблена для відображення доступності до будівель Івано-Франківська, що облаштовані пандусами. Дані для програми беруться з сервісу</string>
+    <string name="description1">Програма розроблена для відображення наявності та якості пандусів до будівель Івано-Франківська. Дані для програми беруться з сервісу</string>
     <string name="http_open_street_map_url">http://www.openstreetmap.org</string>
     <string name="open_street_map_url">www.openstreetmap.org</string>
     <string name="description2">кожен бажаючий може змінити їх</string>

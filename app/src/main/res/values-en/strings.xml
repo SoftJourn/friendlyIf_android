@@ -11,7 +11,7 @@
     <string name="current_location">Current location</string>
     <string name="center_IF">Center</string>
     <string name="current_location_not_available">Your current location is not available...</string>
-    <string name="location_permissions_needed">You need the permission for displaying of current location</string>
+    <string name="location_permissions_needed">You need the permission for displaying your current location</string>
 
     <string name="drawer_item_all">All</string>
     <string name="drawer_item_pharmacy">Pharmacy</string>
@@ -23,7 +23,7 @@
     <string name="settings_title">Settings</string>
     <string name="about_title">About</string>
 
-    <string name="description1">The program is designed to reflect the accessibility of buildings Ivano-Frankivsk, which are equipped with ramps. The application gets data from service</string>
+    <string name="description1">The program is designed to inform about the availability and quality of ramps to the buildings in Ivano-Frankivsk. The application gets data from service</string>
     <string name="http_open_street_map_url">http://www.openstreetmap.org</string>
     <string name="open_street_map_url">www.openstreetmap.org</string>
     <string name="description2">and anyone can change the data</string>
@@ -39,7 +39,7 @@
 
     <string name="location_settings">Location settings</string>
     <string name="enable_current_location">Show current location</string>
-    <string name="enable_current_location_desription">Show actual current location on the map using GPS navigation</string>
+    <string name="enable_current_location_desription">Show current location on the map using GPS navigation</string>
     <string name="enable_update_current_location">Watch for location changes</string>
     <string name="enable_update_current_location_desription">GPS navigator mode</string>
     <string name="enable_update_current_location_checkbox_id">current_location_checkbox_id</string>
@@ -48,7 +48,7 @@
     <string name="gps_not_supported">GPS is not supported</string>
     <string name="gps_not_enabled">GPS is not enabled</string>
     <string name="gps_not_enabled_settings">GPS is not enabled, go to the Settings screen to turn GPS on</string>
-    <string name="cant_detect_location">vUnable to determine a location</string>
+    <string name="cant_detect_location">Unable to determine the location</string>
     <string name="gps_already_enabled">GPS is enabled</string>
     <string name="city_limit_message">You went out of the city</string>
 
