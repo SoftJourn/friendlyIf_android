@@ -127,6 +127,8 @@ public class RetrofitApiProvider implements Const, ErrorCodes {
                 msgStringId = R.string.default_error;
                 break;
         }
-        callback.onError(msgStringId);
+        if (callback != null) {
+            callback.onError(msgStringId);
+        }
     }
 }

@@ -70,9 +70,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private boolean mIsIconsTiny;
     private float mZoomLevel;
     private float mPreviousZoomLevel;
-    private LatLng mCameraTarget;
     private CameraPosition mCameraPosition;
     private MarkerUtils mMarkerUtils = MarkerUtils.getInstance();
+    private NetworkCallback<Data> mNetworkCallback;
+    private boolean mIsActivityVisible = true;
 
     protected void onStart() {
         mMapUtilsInstanse.initGoogleApiClient(MainActivity.this);
@@ -95,6 +96,24 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         String appTitle;
+
+        mNetworkCallback = new NetworkCallback<Data>() {
+            @Override
+            public void onSuccess(Data response) {
+                if (mIsActivityVisible) {
+                    onResponseSuccess(response, ALL_ACSSESIBLE_BUILDINGS);
+                }
+            }
+
+            @Override
+            public void onError(int errorMsgStringId) {
+                if (mIsActivityVisible) {
+                    showSnackbarMassage(getString(errorMsgStringId));
+                    hideProgress();
+                }
+            }
+        };
+
         if (savedInstanceState == null) {
             appTitle = getAppTitle(ALL_ACSSESIBLE_BUILDINGS);
             if (NetworkUtils.isOnline(this)) {
@@ -113,7 +132,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             mZoomLevel = savedInstanceState.getFloat(ZOOM_LEVEL_EXTRA, 0);
             mIsIconsTiny = savedInstanceState.getBoolean(IS_ICONS_TINY, false);
 
-            if(mMyLocation != null) {
+            if (mMyLocation != null) {
                 displayLocation(mMyLocation);
             }
             appTitle = getAppTitle(mSelectedMenuPosition + 1);
@@ -150,7 +169,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                             }
                         }
                     }
-                } else{
+                } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.gps_not_enabled_settings), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -166,7 +185,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             mMapUtilsInstanse.initGoogleApiClient(this);
             mMapUtilsInstanse.onConnected(mSavedInstanceState);
 
-            if(mMyLocation!= null) {
+            if (mMyLocation != null) {
                 displayLocation(mMyLocation);
             }
         }
@@ -233,10 +252,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        if(mSavedInstanceState == null){
+        if (mSavedInstanceState == null) {
             if (LocationUtils.isLocationEnabled() && mMyLocation != null) {
                 displayLocation(mMyLocation);
-            }else{
+            } else {
                 moveToCenterIf(googleMap, true);
             }
         } else {
@@ -265,63 +284,19 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     }
 
     void getAllBuildings() {
-        ApiManager.getInstance().getApiProvider().getAllBuildings((new NetworkCallback<Data>() {
-            @Override
-            public void onSuccess(Data response) {
-                onResponseSuccess(response, ALL_ACSSESIBLE_BUILDINGS);
-            }
-
-            @Override
-            public void onError(int errorMsgStringId) {
-                showSnackbarMassage(getString(errorMsgStringId));
-                hideProgress();
-            }
-        }));
+        ApiManager.getInstance().getApiProvider().getAllBuildings(mNetworkCallback);
     }
 
     void getPharmacyBuildings() {
-        ApiManager.getInstance().getApiProvider().getPharmacyBuildings(new NetworkCallback<Data>() {
-            @Override
-            public void onSuccess(Data response) {
-                onResponseSuccess(response, PHARMACY_ACSSESIBLE_BUILDINGS);
-            }
-
-            @Override
-            public void onError(int errorMsgStringId) {
-                showSnackbarMassage(getString(errorMsgStringId));
-                hideProgress();
-            }
-        });
+        ApiManager.getInstance().getApiProvider().getPharmacyBuildings(mNetworkCallback);
     }
 
     void getHospitalBuildings() {
-        ApiManager.getInstance().getApiProvider().getHospitalBuildings(new NetworkCallback<Data>() {
-            @Override
-            public void onSuccess(Data response) {
-                onResponseSuccess(response, HOSPITAL_ACSSESIBLE_BUILDINGS);
-            }
-
-            @Override
-            public void onError(int errorMsgStringId) {
-                showSnackbarMassage(getString(errorMsgStringId));
-                hideProgress();
-            }
-        });
+        ApiManager.getInstance().getApiProvider().getHospitalBuildings(mNetworkCallback);
     }
 
     void getShopBuildings() {
-        ApiManager.getInstance().getApiProvider().getShopBuildings(new NetworkCallback<Data>() {
-            @Override
-            public void onSuccess(Data response) {
-                onResponseSuccess(response, SHOP_BUILDINGS);
-            }
-
-            @Override
-            public void onError(int errorMsgStringId) {
-                showSnackbarMassage(getString(errorMsgStringId));
-                hideProgress();
-            }
-        });
+        ApiManager.getInstance().getApiProvider().getShopBuildings(mNetworkCallback);
     }
 
     private void onResponseSuccess(Data response, int buildingsType) {
@@ -354,7 +329,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         markersInstance.drawMarkers(MainActivity.this, mMap, markerList, mCameraPosition,
                 mElementList, mPreviousZoomLevel, mMapIsTouched, false);
         mPreviousZoomLevel = markersInstance.getPreveuosZoomLevel();
-        if(mMyLocation != null) {
+        if (mMyLocation != null) {
             displayLocation(mMyLocation);
         }
         hideProgress();
@@ -401,11 +376,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         startService(locationServiceIntent);
     }
 
-    private void moveToCurrentLocation(Location location){
+    private void moveToCurrentLocation(Location location) {
         if (mMap != null && location != null) {
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(
-                        new LatLng(location.getLatitude(), location.getLongitude())));
-                displayLocation(location);
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(
+                    new LatLng(location.getLatitude(), location.getLongitude())));
+            displayLocation(location);
         }
     }
 
@@ -465,9 +440,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 if (currentLocation != null) {
                     Log.d(TAG, "MAIN last known location " + String.valueOf(currentLocation.getLatitude())
                             + ", " + String.valueOf(currentLocation.getLongitude()));
-                    if(PreferencesManager.isFollowingLocation()){
+                    if (PreferencesManager.isFollowingLocation()) {
                         moveToCurrentLocation(currentLocation);
-                    }else {
+                    } else {
                         displayLocation(currentLocation);
                     }
 
@@ -476,11 +451,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
 
             Location startLocation = (Location) intent.getParcelableExtra(LOCATION_START_EXTRA);
-                if (startLocation != null) {
-                    moveToCurrentLocation(startLocation);
-                    mMyLocation = startLocation;
-                }
+            if (startLocation != null) {
+                moveToCurrentLocation(startLocation);
+                mMyLocation = startLocation;
             }
+        }
     };
 
     public GoogleMap getMap() {
@@ -519,7 +494,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         }
     }
 
-    private void showSnackbarMassage(String massage){
+    private void showSnackbarMassage(String massage) {
         Snackbar snackbar = Snackbar.make(mCoordinatorLayout, massage, Snackbar.LENGTH_LONG);
         ((TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
         snackbar.show();
@@ -528,10 +503,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
-        if((mElementList != null) && (!mElementList.isEmpty())){
+        if ((mElementList != null) && (!mElementList.isEmpty())) {
             savedInstanceState.putParcelableArrayList(ELEMENT_LIST_EXTRA, new ArrayList<Parcelable>(mElementList));
         }
-        if((mMarkerList != null) && (!mMarkerList.isEmpty())){
+        if ((mMarkerList != null) && (!mMarkerList.isEmpty())) {
             savedInstanceState.putParcelableArrayList(MARKER_LIST_EXTRA, new ArrayList<Parcelable>(mMarkerList));
         }
         savedInstanceState.putInt(SELECTED_MENU_POSITION_EXTRA, mSelectedMenuPosition);
@@ -547,6 +522,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mLocationDataReceiver, new IntentFilter(LOCATION_DATA_FILTER_NAME));
+        mIsActivityVisible = true;
     }
 
     @Override
@@ -554,6 +530,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(
                 mLocationDataReceiver);
+        mIsActivityVisible = false;
+        hideProgress();
     }
 
     @Override
@@ -592,5 +570,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 return;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

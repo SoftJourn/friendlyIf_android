@@ -18,9 +18,9 @@
     -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         <!--DEBUG VERSION KEY-->
-        <!--AIzaSyDJXsBp-s0B7mwB2HtaBkoFAsE319cWHwM-->
+        <!--AIzaSyBmyAdwuvihKmBwGCn2KPCqNhfSgp13yf0-->
 
         <!--REALISE VERSION KEY-->
-        AIzaSyBmyAdwuvihKmBwGCn2KPCqNhfSgp13yf0
+        AIzaSyAaXMNUXpGNs_W1PrE9O1_ck3ZGZya0oXU
     </string>
 </resources>
