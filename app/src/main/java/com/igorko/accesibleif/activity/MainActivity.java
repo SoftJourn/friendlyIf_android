@@ -15,6 +15,8 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -27,6 +29,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,7 +52,6 @@ import com.igorko.accesibleif.utils.CameraUtils;
 import com.igorko.accesibleif.utils.Const;
 import com.igorko.accesibleif.utils.Extras;
 import com.igorko.accesibleif.utils.LocationUtils;
-import com.igorko.accesibleif.utils.MapUtils;
 import com.igorko.accesibleif.utils.MarkerUtils;
 import com.igorko.accesibleif.utils.NetworkUtils;
 import com.igorko.accesibleif.utils.NumberUtils;
@@ -60,8 +64,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private Bundle mSavedInstanceState;
     private Drawer.Result mDrawer;
     private GoogleMap mMap;
+    private GoogleApiClient mGoogleApiClient;
     private Toolbar mToolbar;
-    private MapUtils mMapUtilsInstanse;
+    private Intent mLocationServiceIntent;
     private Location mMyLocation;
     private int mSelectedMenuPosition;
     private ArrayList<MarkerOptions> mMarkerList;
@@ -75,9 +80,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private NetworkCallback<Data> mNetworkCallback;
     private boolean mIsActivityVisible = true;
 
-    protected void onStart() {
-        mMapUtilsInstanse.initGoogleApiClient(MainActivity.this);
-        mMapUtilsInstanse.onStart();
+    public void onStart() {
+        initGoogleApiClient(MainActivity.this);
         super.onStart();
     }
 
@@ -174,16 +178,13 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 }
             }
         });
-
-        mMapUtilsInstanse = MapUtils.getInstance();
     }
 
     @Override
     protected void onDrawerMenuItemSelected(int position) {
         if (LocationUtils.isLocationEnabled()) {
-            mMapUtilsInstanse = MapUtils.getInstance();
-            mMapUtilsInstanse.initGoogleApiClient(this);
-            mMapUtilsInstanse.onConnected(mSavedInstanceState);
+            initGoogleApiClient(MainActivity.this);
+            onConnected(mSavedInstanceState);
 
             if (mMyLocation != null) {
                 displayLocation(mMyLocation);
@@ -260,6 +261,12 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
         } else {
             mMarkerList = MarkerUtils.getInstance().addMarkers(googleMap, mMarkerList);
+        }
+
+         /*For screen rotation before request call*/
+        if(mElementList == null){
+            getAllBuildings();
+            moveToCenterIf(mMap, true);
         }
 
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -550,12 +557,53 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onStop() {
-        if (mMapUtilsInstanse != null) {
-            mMapUtilsInstanse.onStop();
+    public void initGoogleApiClient(MainActivity activity) {
+        // Create an instance of GoogleAPIClient.
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
         }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Log.d(TAG, "onConnected");
+        mLocationServiceIntent = new Intent(MainActivity.this, LocationService.class);
+        startService(mLocationServiceIntent);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.d(TAG, "onConnectionSuspended");
+        if(mLocationServiceIntent != null) {
+            stopService(mLocationServiceIntent);
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(TAG, "onConnectionFailed");
+        if(mLocationServiceIntent != null) {
+            stopService(mLocationServiceIntent);
+        }
+    }
+
+    public void onStop() {
         super.onStop();
+
+        if(mLocationServiceIntent != null) {
+            stopService(mLocationServiceIntent);
+        }
+        if(mGoogleApiClient != null) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     @Override

@@ -10,19 +10,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.igorko.accesibleif.R;
+import com.igorko.accesibleif.utils.Const;
+import com.igorko.accesibleif.utils.ScreenUtils;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.igorko.accesibleif.utils.ScreenUtils;
 
 /**
  * Created by Igorko on 11.10.2016.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, Const {
 
     private Dialog mDialog;
 
