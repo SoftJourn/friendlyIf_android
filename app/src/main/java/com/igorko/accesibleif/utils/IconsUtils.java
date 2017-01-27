@@ -121,6 +121,36 @@ public class IconsUtils implements Const {
         return BitmapDescriptorFactory.fromResource(resid);
     }
 
+    public static BitmapDescriptor setAdministrationIcon(Element element) {
+        //set wheelchar icon color
+        String wheelchar = element.getTags().getWheelchair();
+        int resid;
+        if (wheelchar != null && !wheelchar.isEmpty()){
+            switch (wheelchar) {
+                case WHEELCHAIR_YES: {
+                    resid = R.mipmap.administration_green_ic;
+                    break;
+                }
+                case WHEELCHAIR_NO: {
+                    resid = R.mipmap.administration_red_ic;
+                    break;
+                }
+                case WHEELCHAIR_LIMIITED: {
+                    resid = R.mipmap.administration_yellow_ic;
+                    break;
+                }
+                default: {
+                    resid = R.mipmap.administration_black_ic;
+                    break;
+                }
+            }
+        }else {
+            resid = R.mipmap.administration_black_ic;
+        }
+
+        return BitmapDescriptorFactory.fromResource(resid);
+    }
+
     public static BitmapDescriptor setAirportIcon(Element element){
         //set wheelchar icon color
         String wheelchar = element.getTags().getWheelchair();

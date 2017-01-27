@@ -13,6 +13,7 @@ public class Tags implements Parcelable {
     String entrance;
     String exit;
     String railway;
+    String office;
     String wheelchair;
     String amenity;
     String name;
@@ -44,6 +45,14 @@ public class Tags implements Parcelable {
         return aeroway;
     }
 
+    public String getOffice() {
+        return office;
+    }
+
+    public void setOffice(String office) {
+        this.office = office;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -55,6 +64,7 @@ public class Tags implements Parcelable {
         dest.writeString(this.entrance);
         dest.writeString(this.exit);
         dest.writeString(this.railway);
+        dest.writeString(this.office);
         dest.writeString(this.wheelchair);
         dest.writeString(this.amenity);
         dest.writeString(this.name);
@@ -70,6 +80,8 @@ public class Tags implements Parcelable {
         this.automatic_door = in.readString();
         this.entrance = in.readString();
         this.exit = in.readString();
+        this.railway = in.readString();
+        this.office = in.readString();
         this.wheelchair = in.readString();
         this.amenity = in.readString();
         this.name = in.readString();

@@ -90,6 +90,11 @@ public class DrawMarkersTask extends AsyncTask<Float, Object, ArrayList<MarkerOp
                                 if (aeroway.equals(AERODROME)) {
                                     markerIcon = IconsUtils.setAirportIcon(element);
                                 }
+                            } else if(element.getTags().getOffice() != null){
+                                String office = element.getTags().getOffice();
+                                if (office.equals(GOVERNMENT)) {
+                                    markerIcon = IconsUtils.setAdministrationIcon(element);
+                                }
                             }
                         }
                     }
