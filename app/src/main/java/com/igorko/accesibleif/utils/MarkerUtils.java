@@ -36,10 +36,13 @@ public class MarkerUtils implements Const{
     }
 
     public ArrayList<MarkerOptions> getAllMarkers(ArrayList<Element> elementList){
-        ArrayList<MarkerOptions> markerList = new ArrayList();
-        for (Element element : elementList) {
-            if (element != null) {
-                markerList = fillMarkerList(element, IconsUtils.setDefaultIcon(element));
+        ArrayList<MarkerOptions> markerList = null;
+        if(elementList != null && elementList.size() >  0) {
+            markerList = new ArrayList();
+            for (Element element : elementList) {
+                if (element != null) {
+                    markerList = fillMarkerList(element, IconsUtils.setDefaultIcon(element));
+                }
             }
         }
         return markerList;
