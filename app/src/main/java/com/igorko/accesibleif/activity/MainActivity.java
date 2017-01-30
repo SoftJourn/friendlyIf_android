@@ -129,12 +129,12 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
         } else {
             mElementList = savedInstanceState.getParcelableArrayList(ELEMENT_LIST_EXTRA);
-            mMarkerList = savedInstanceState.getParcelableArrayList(MARKER_LIST_EXTRA);
             mSelectedMenuPosition = savedInstanceState.getInt(SELECTED_MENU_POSITION_EXTRA, 0);
             mMyLocation = savedInstanceState.getParcelable(LOCATION_EXTRA);
             mMapIsTouched = savedInstanceState.getBoolean(TOUCH_EXTRA, false);
             mZoomLevel = savedInstanceState.getFloat(ZOOM_LEVEL_EXTRA, 0);
             mIsIconsTiny = savedInstanceState.getBoolean(IS_ICONS_TINY, false);
+            mMarkerList = MarkerUtils.getInstance().getAllMarkers(mElementList);
 
             if (mMyLocation != null) {
                 displayLocation(mMyLocation);
@@ -509,19 +509,16 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-
+        super.onSaveInstanceState(savedInstanceState);
         if ((mElementList != null) && (!mElementList.isEmpty())) {
             savedInstanceState.putParcelableArrayList(ELEMENT_LIST_EXTRA, new ArrayList<Parcelable>(mElementList));
         }
-        if ((mMarkerList != null) && (!mMarkerList.isEmpty())) {
-            savedInstanceState.putParcelableArrayList(MARKER_LIST_EXTRA, new ArrayList<Parcelable>(mMarkerList));
-        }
+
         savedInstanceState.putInt(SELECTED_MENU_POSITION_EXTRA, mSelectedMenuPosition);
         savedInstanceState.putParcelable(LOCATION_EXTRA, mMyLocation);
         savedInstanceState.putBoolean(TOUCH_EXTRA, mMapIsTouched);
         savedInstanceState.putFloat(ZOOM_LEVEL_EXTRA, mZoomLevel);
         savedInstanceState.putBoolean(IS_ICONS_TINY, mIsIconsTiny);
-        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
