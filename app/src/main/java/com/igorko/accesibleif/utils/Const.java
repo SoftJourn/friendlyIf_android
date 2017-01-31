@@ -13,12 +13,15 @@ public interface Const {
     int HOSPITAL_ACSSESIBLE_BUILDINGS = 2;
     int PHARMACY_ACSSESIBLE_BUILDINGS = 3;
     int SHOP_BUILDINGS = 4;
-    int SETTINGS = 6;
-    int ABOUT_US = 7;
+    int ATM_BUILDINGS = 5;
+
+    int SETTINGS = 7;
+    int ABOUT_US = 8;
 
     String AMENITY_HOSPITAL = "hospital";
     String AMENITY_PHAPMACY = "pharmacy";
     String AMENITY_SHOP = "shop";
+    String AMENITY_ATM = "atm";
 
     String AERODROME = "aerodrome";
     String STATION = "station";

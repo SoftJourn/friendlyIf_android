@@ -103,9 +103,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         mNetworkCallback = new NetworkCallback<Data>() {
             @Override
-            public void onSuccess(Data response) {
+            public void onSuccess(Data response, int type) {
                 if (mIsActivityVisible) {
-                    onResponseSuccess(response, ALL_ACSSESIBLE_BUILDINGS);
+                    onResponseSuccess(response, type);
                 }
             }
 
@@ -232,6 +232,15 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 }
                 break;
             }
+            case ATM_BUILDINGS: {
+                if (NetworkUtils.isOnline(this)) {
+                    showProgress();
+                    getATMBuildings();
+                } else {
+                    showSnackbarMassage(getString(R.string.no_internet_connection));
+                }
+                break;
+            }
             case SETTINGS: {
                 hideProgress();
                 showSettings();
@@ -306,6 +315,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         ApiManager.getInstance().getApiProvider().getShopBuildings(mNetworkCallback);
     }
 
+    void getATMBuildings() {
+        ApiManager.getInstance().getApiProvider().getATMBuildings(mNetworkCallback);
+    }
+
     private void onResponseSuccess(Data response, int buildingsType) {
         mElementList = response.getElements();
         MarkerUtils markersInstance = MarkerUtils.getInstance();
@@ -329,6 +342,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 case SHOP_BUILDINGS: {
                     markerList = markersInstance.getShopMarkers(mElementList);
                     break;
+                }
+                case ATM_BUILDINGS:{
+                    markerList = markersInstance.getATMMarkers(mElementList);
                 }
             }
         }

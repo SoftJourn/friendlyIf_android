@@ -78,6 +78,16 @@ public class MarkerUtils implements Const{
         return markerList;
     }
 
+    public ArrayList<MarkerOptions> getATMMarkers(ArrayList<Element> elementList){
+        ArrayList<MarkerOptions> markerList = new ArrayList();
+        for (Element element : elementList) {
+            if (element != null) {
+                markerList = fillMarkerList(element, IconsUtils.setATMIcon(element));
+            }
+        }
+        return markerList;
+    }
+
     private ArrayList<MarkerOptions> fillMarkerList(Element element, BitmapDescriptor markerIcon){
         ArrayList<MarkerOptions> markerList = new ArrayList();
         if (element != null && markerIcon != null) {

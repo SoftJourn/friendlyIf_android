@@ -264,4 +264,31 @@ public class IconsUtils implements Const {
 
         return BitmapDescriptorFactory.fromResource(resid);
     }
+
+    public static BitmapDescriptor setATMIcon(Element element){
+        //set wheelchar icon color
+        String wheelchar = element.getTags().getWheelchair();
+        int resid;
+        switch (wheelchar) {
+            case WHEELCHAIR_YES: {
+                resid = R.mipmap.atm_green_ic;
+                break;
+            }
+            case WHEELCHAIR_NO: {
+                resid = R.mipmap.atm_red_ic;
+                break;
+            }
+            case WHEELCHAIR_LIMIITED: {
+                resid = R.mipmap.atm_yellow_ic;
+                break;
+            }
+            default: {
+                resid = R.mipmap.atm_icon;
+                break;
+            }
+        }
+
+        return BitmapDescriptorFactory.fromResource(resid);
+    }
+
 }

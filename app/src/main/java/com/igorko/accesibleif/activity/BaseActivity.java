@@ -53,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
                         new PrimaryDrawerItem().withName(R.string.drawer_item_hospital).withIcon(getMyDrawable(R.drawable.hospital_ic)).withIdentifier(1),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_pharmacy).withIcon(getMyDrawable(R.drawable.pharmacy_ic)).withIdentifier(1),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_shop).withIcon(getMyDrawable(R.drawable.shop_ic)).withIdentifier(1),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_atm).withIcon(getMyDrawable(R.drawable.atm_icon)).withIdentifier(1),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getMyDrawable(R.drawable.settings_ic)).withIdentifier(1),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_about).withIcon(getMyDrawable(R.drawable.about_icon)).withIdentifier(1)

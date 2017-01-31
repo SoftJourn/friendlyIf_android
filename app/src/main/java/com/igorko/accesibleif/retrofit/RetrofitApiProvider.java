@@ -35,7 +35,7 @@ public class RetrofitApiProvider implements Const, ErrorCodes {
             public void onResponse(Call<Data> call, Response<Data> response) {
                 if (response.isSuccessful() && response.body() != null){
                     if (callback != null){
-                        callback.onSuccess(response.body());
+                        callback.onSuccess(response.body(), ALL_ACSSESIBLE_BUILDINGS);
                     }
                 }
             }
@@ -52,7 +52,7 @@ public class RetrofitApiProvider implements Const, ErrorCodes {
             public void onResponse(Call<Data> call, Response<Data> response) {
                 if (response.isSuccessful() && response.body() != null){
                     if (callback != null){
-                        callback.onSuccess(response.body());
+                        callback.onSuccess(response.body(), PHARMACY_ACSSESIBLE_BUILDINGS);
                     }
                 }
             }
@@ -70,7 +70,7 @@ public class RetrofitApiProvider implements Const, ErrorCodes {
             public void onResponse(Call<Data> call, Response<Data> response) {
                 if (response.isSuccessful() && response.body() != null){
                     if (callback != null){
-                        callback.onSuccess(response.body());
+                        callback.onSuccess(response.body(), HOSPITAL_ACSSESIBLE_BUILDINGS);
                     }
                 }
             }
@@ -88,7 +88,25 @@ public class RetrofitApiProvider implements Const, ErrorCodes {
             public void onResponse(Call<Data> call, Response<Data> response) {
                 if (response.isSuccessful() && response.body() != null){
                     if (callback != null){
-                        callback.onSuccess(response.body());
+                        callback.onSuccess(response.body(), SHOP_BUILDINGS);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Data> call, Throwable t) {
+                handleError(callback, t);
+            }
+        });
+    }
+
+    public void getATMBuildings(final NetworkCallback<Data> callback) {
+        mApiService.getATMBuildings().enqueue(new Callback<Data>() {
+            @Override
+            public void onResponse(Call<Data> call, Response<Data> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    if (callback != null){
+                        callback.onSuccess(response.body(), ATM_BUILDINGS);
                     }
                 }
             }

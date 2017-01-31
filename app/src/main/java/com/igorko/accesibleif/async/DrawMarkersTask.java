@@ -67,6 +67,10 @@ public class DrawMarkersTask extends AsyncTask<Float, Object, ArrayList<MarkerOp
                                     markerIcon = IconsUtils.setHospitalIcon(element);
                                     break;
                                 }
+                                case AMENITY_ATM: {
+                                    markerIcon = IconsUtils.setATMIcon(element);
+                                    break;
+                                }
                                 default: {
                                     markerIcon = IconsUtils.setDefaultIcon(element);
                                     break;

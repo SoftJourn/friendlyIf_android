@@ -17,6 +17,7 @@
     <string name="drawer_item_pharmacy">Аптеки</string>
     <string name="drawer_item_hospital">Лікарні та поліклініки</string>
     <string name="drawer_item_shop">Магазини</string>
+    <string name="drawer_item_atm">Банкомати</string>
     <string name="drawer_item_settings">Налаштування</string>
     <string name="drawer_item_about">Про програму</string>
 
