@@ -6,7 +6,7 @@ package com.igorko.accesibleif.retrofit;
 
 public interface NetworkCallback<T> {
 
-    void onSuccess(T response, int type);
+    void onSuccess(T response);
 
     void onError(int errorMsgId);
 }

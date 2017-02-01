@@ -103,9 +103,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         mNetworkCallback = new NetworkCallback<Data>() {
             @Override
-            public void onSuccess(Data response, int type) {
+            public void onSuccess(Data response) {
                 if (mIsActivityVisible) {
-                    onResponseSuccess(response, type);
+                    onResponseSuccess(response);
                 }
             }
 
@@ -297,8 +297,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
         });
 
-        MarkerUtils.getInstance().initZoomLevel(mPreviousZoomLevel);
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -329,39 +327,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         ApiManager.getInstance().getApiProvider().getATMBuildings(mNetworkCallback);
     }
 
-    private void onResponseSuccess(Data response, int buildingsType) {
+    private void onResponseSuccess(Data response) {
         mElementList = response.getElements();
-        MarkerUtils markersInstance = MarkerUtils.getInstance();
-
-        ArrayList<MarkerOptions> markerList = null;
-
-        if (mElementList != null && !mElementList.isEmpty()) {
-            switch (buildingsType) {
-                case ALL_ACSSESIBLE_BUILDINGS: {
-                    markerList = markersInstance.getAllMarkers(mElementList, mZoomLevel);
-                    break;
-                }
-                case PHARMACY_ACSSESIBLE_BUILDINGS: {
-                    markerList = markersInstance.getPharmacyMarkers(mElementList);
-                    break;
-                }
-                case HOSPITAL_ACSSESIBLE_BUILDINGS: {
-                    markerList = markersInstance.getHospitalMarkers(mElementList);
-                    break;
-                }
-                case SHOP_BUILDINGS: {
-                    markerList = markersInstance.getShopMarkers(mElementList);
-                    break;
-                }
-                case ATM_BUILDINGS: {
-                    markerList = markersInstance.getATMMarkers(mElementList);
-                }
-            }
-        }
-
-        mPreviousZoomLevel = markersInstance.getPreveuosZoomLevel();
-        markersInstance.drawMarkers(MainActivity.this, markerList, mZoomLevel,
-                mElementList, mPreviousZoomLevel);
+        ArrayList<MarkerOptions> markerList = MarkerUtils.getInstance().getAllMarkers(mElementList, mZoomLevel);
+        MarkerUtils.getInstance().addMarkers(mMap, markerList);
 
         if (mMyLocation != null) {
             displayLocation(mMyLocation);

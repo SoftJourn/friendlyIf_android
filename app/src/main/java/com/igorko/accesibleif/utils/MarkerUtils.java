@@ -9,9 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.igorko.accesibleif.R;
-import com.igorko.accesibleif.activity.MainActivity;
 import com.igorko.accesibleif.app.AppContext;
-import com.igorko.accesibleif.async.DrawMarkersTask;
 import com.igorko.accesibleif.manager.PreferencesManager;
 import com.igorko.accesibleif.models.Bounds;
 import com.igorko.accesibleif.models.Element;
@@ -26,7 +24,6 @@ import java.util.List;
 public class MarkerUtils implements Const{
 
     private static MarkerUtils mInstance;
-    private float mPreviousZoomLevel = (float) 0.0;
     private Marker mMarker = null;
 
     public static MarkerUtils getInstance() {
@@ -111,54 +108,6 @@ public class MarkerUtils implements Const{
         return markerList;
     }
 
-    private ArrayList<MarkerOptions> fillMarkerList(ArrayList<MarkerOptions> markerList, Element element, BitmapDescriptor markerIcon){
-        if (element != null && markerIcon != null) {
-            MarkerOptions marker = addMarkerElement(element, markerIcon);
-            markerList.add(marker);
-        }
-        return markerList;
-    }
-
-    public ArrayList<MarkerOptions> getPharmacyMarkers(ArrayList<Element> elementList){
-        ArrayList<MarkerOptions> markerList = new ArrayList();
-        for (Element element : elementList) {
-            if (element != null) {
-                markerList = fillMarkerList(markerList, element, IconsUtils.setPharmacyIcon(element));
-            }
-        }
-        return markerList;
-    }
-
-    public ArrayList<MarkerOptions> getHospitalMarkers(ArrayList<Element> elementList){
-        ArrayList<MarkerOptions> markerList = new ArrayList();
-        for (Element element : elementList) {
-            if (element != null) {
-                markerList = fillMarkerList(markerList, element, IconsUtils.setHospitalIcon(element));
-            }
-        }
-        return markerList;
-    }
-
-    public ArrayList<MarkerOptions> getShopMarkers(ArrayList<Element> elementList){
-        ArrayList<MarkerOptions> markerList = new ArrayList();
-        for (Element element : elementList) {
-            if (element != null) {
-                markerList = fillMarkerList(markerList, element, IconsUtils.setShopIcon(element));
-            }
-        }
-        return markerList;
-    }
-
-    public ArrayList<MarkerOptions> getATMMarkers(ArrayList<Element> elementList){
-        ArrayList<MarkerOptions> markerList = new ArrayList();
-        for (Element element : elementList) {
-            if (element != null) {
-                markerList = fillMarkerList(markerList, element, IconsUtils.setATMIcon(element));
-            }
-        }
-        return markerList;
-    }
-
     private MarkerOptions addMarkerElement(Element element, BitmapDescriptor markerIcon) {
         String name = element.getTags().getName();
         LatLng coordinates;
@@ -178,26 +127,6 @@ public class MarkerUtils implements Const{
         MarkerOptions mapMarker = new MarkerOptions().position(coordinates).title(name);
         mapMarker.icon(markerIcon);
         return mapMarker;
-    }
-
-    public void initZoomLevel(float previousZoomLevel){
-        this.mPreviousZoomLevel = previousZoomLevel;
-    }
-
-    public float getPreveuosZoomLevel(){
-        return mPreviousZoomLevel;
-    }
-
-    public void drawMarkers(MainActivity activity, ArrayList<MarkerOptions> markersList, float currentZoom,
-                             ArrayList<Element> elementList, float previousZoomLevel) {
-        if (markersList != null && !markersList.isEmpty()) {
-            if ((((previousZoomLevel != currentZoom)) && (((previousZoomLevel < TINY_ZOOM_LEVEL) &&
-                    (currentZoom >= TINY_ZOOM_LEVEL)) || ((previousZoomLevel >= TINY_ZOOM_LEVEL) && (currentZoom < TINY_ZOOM_LEVEL))))) {
-                DrawMarkersTask drawMarkersTask = new DrawMarkersTask(activity, elementList, markersList);
-                drawMarkersTask.execute(currentZoom);
-                mPreviousZoomLevel = currentZoom;
-            }
-        }
     }
 
     public ArrayList<MarkerOptions> addMarkers(GoogleMap googleMap, ArrayList<MarkerOptions> markerList) {
