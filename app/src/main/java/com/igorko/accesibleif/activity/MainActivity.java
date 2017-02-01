@@ -52,6 +52,7 @@ import com.igorko.accesibleif.utils.CameraUtils;
 import com.igorko.accesibleif.utils.Const;
 import com.igorko.accesibleif.utils.Extras;
 import com.igorko.accesibleif.utils.LocationUtils;
+import com.igorko.accesibleif.utils.MapUtils;
 import com.igorko.accesibleif.utils.MarkerUtils;
 import com.igorko.accesibleif.utils.NetworkUtils;
 import com.igorko.accesibleif.utils.NumberUtils;
@@ -76,7 +77,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private float mZoomLevel;
     private float mPreviousZoomLevel;
     private CameraPosition mCameraPosition;
-    private MarkerUtils mMarkerUtils = MarkerUtils.getInstance();
     private NetworkCallback<Data> mNetworkCallback;
     private boolean mIsActivityVisible = true;
 
@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         mSavedInstanceState = savedInstanceState;
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP){
+        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             setTheme(R.style.AppStyle);
         }
 
@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             mMapIsTouched = savedInstanceState.getBoolean(TOUCH_EXTRA, false);
             mZoomLevel = savedInstanceState.getFloat(ZOOM_LEVEL_EXTRA, 0);
             mIsIconsTiny = savedInstanceState.getBoolean(IS_ICONS_TINY, false);
-            mMarkerList = MarkerUtils.getInstance().getAllMarkers(mElementList);
+            mMarkerList = MarkerUtils.getInstance().getAllMarkers(mElementList, mZoomLevel);
 
             if (mMyLocation != null) {
                 displayLocation(mMyLocation);
@@ -259,7 +259,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         if (mSavedInstanceState == null) {
@@ -273,7 +273,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         }
 
          /*For screen rotation before request call*/
-        if(mElementList == null){
+        if (mElementList == null) {
             getAllBuildings();
             moveToCenterIf(mMap, true);
         }
@@ -282,12 +282,22 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         googleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
+                mZoomLevel = cameraPosition.zoom;
+                if (mPreviousZoomLevel != cameraPosition.zoom) {
+                    ArrayList<MarkerOptions> markerList = MarkerUtils.getInstance().getAllMarkers(mElementList, mZoomLevel);
+                    MarkerUtils.getInstance().addMarkers(googleMap, markerList);
+                }
+
+                if (!mMapIsTouched && PreferencesManager.isMapLimitSetted()) {
+                    MapUtils.setCheckLimits(mMap, mCameraPosition, mMapIsTouched, mZoomLevel);
+                }
+
+                mPreviousZoomLevel = cameraPosition.zoom;
                 mCameraPosition = cameraPosition;
-                mMarkerUtils.drawMarkers(MainActivity.this, mMap, mMarkerList,
-                        mCameraPosition, mElementList, mPreviousZoomLevel, mMapIsTouched, true);
-                mPreviousZoomLevel = mMarkerUtils.getPreveuosZoomLevel();
             }
         });
+
+        MarkerUtils.getInstance().initZoomLevel(mPreviousZoomLevel);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -328,7 +338,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         if (mElementList != null && !mElementList.isEmpty()) {
             switch (buildingsType) {
                 case ALL_ACSSESIBLE_BUILDINGS: {
-                    markerList = markersInstance.getAllMarkers(mElementList);
+                    markerList = markersInstance.getAllMarkers(mElementList, mZoomLevel);
                     break;
                 }
                 case PHARMACY_ACSSESIBLE_BUILDINGS: {
@@ -343,15 +353,16 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                     markerList = markersInstance.getShopMarkers(mElementList);
                     break;
                 }
-                case ATM_BUILDINGS:{
+                case ATM_BUILDINGS: {
                     markerList = markersInstance.getATMMarkers(mElementList);
                 }
             }
         }
 
-        markersInstance.drawMarkers(MainActivity.this, mMap, markerList, mCameraPosition,
-                mElementList, mPreviousZoomLevel, mMapIsTouched, false);
         mPreviousZoomLevel = markersInstance.getPreveuosZoomLevel();
+        markersInstance.drawMarkers(MainActivity.this, markerList, mZoomLevel,
+                mElementList, mPreviousZoomLevel);
+
         if (mMyLocation != null) {
             displayLocation(mMyLocation);
         }
@@ -595,7 +606,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     @Override
     public void onConnectionSuspended(int i) {
         Log.d(TAG, "onConnectionSuspended");
-        if(mLocationServiceIntent != null) {
+        if (mLocationServiceIntent != null) {
             stopService(mLocationServiceIntent);
         }
     }
@@ -603,7 +614,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed");
-        if(mLocationServiceIntent != null) {
+        if (mLocationServiceIntent != null) {
             stopService(mLocationServiceIntent);
         }
     }
@@ -611,10 +622,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     public void onStop() {
         super.onStop();
 
-        if(mLocationServiceIntent != null) {
+        if (mLocationServiceIntent != null) {
             stopService(mLocationServiceIntent);
         }
-        if(mGoogleApiClient != null) {
+        if (mGoogleApiClient != null) {
             mGoogleApiClient.disconnect();
         }
     }

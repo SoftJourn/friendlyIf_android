@@ -5,7 +5,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -16,7 +15,9 @@ import com.igorko.accesibleif.async.DrawMarkersTask;
 import com.igorko.accesibleif.manager.PreferencesManager;
 import com.igorko.accesibleif.models.Bounds;
 import com.igorko.accesibleif.models.Element;
+import com.igorko.accesibleif.models.Tags;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Igorko on 28.11.2016.
@@ -35,15 +36,85 @@ public class MarkerUtils implements Const{
         return mInstance;
     }
 
-    public ArrayList<MarkerOptions> getAllMarkers(ArrayList<Element> elementList){
-        ArrayList<MarkerOptions> markerList = null;
-        if(elementList != null && elementList.size() >  0) {
-            markerList = new ArrayList();
-            for (Element element : elementList) {
-                if (element != null) {
-                    markerList = fillMarkerList(element, IconsUtils.setDefaultIcon(element));
+    public ArrayList<MarkerOptions> getAllMarkers(List<Element> elementList, float zoomLevel){
+        ArrayList<MarkerOptions> markerList = new ArrayList<MarkerOptions>();
+        if (elementList != null && elementList.size() > 0) {
+            if ((zoomLevel == 0.0) || (zoomLevel >= TINY_ZOOM_LEVEL)) {
+                BitmapDescriptor markerIcon = null;
+                for (Element element : elementList) {
+                    if (element != null && element.getTags() != null && element.getTags().getAmenity() != null) {
+                        String amenity = element.getTags().getAmenity();
+                        if (amenity != null) {
+                            switch (amenity) {
+                                case AMENITY_PHAPMACY: {
+                                    markerIcon = IconsUtils.setPharmacyIcon(element);
+                                    break;
+                                }
+                                case AMENITY_SHOP: {
+                                    markerIcon = IconsUtils.setShopIcon(element);
+                                    break;
+                                }
+                                case AMENITY_HOSPITAL: {
+                                    markerIcon = IconsUtils.setHospitalIcon(element);
+                                    break;
+                                }
+                                case AMENITY_ATM: {
+                                    markerIcon = IconsUtils.setATMIcon(element);
+                                    break;
+                                }
+                                default: {
+                                    markerIcon = IconsUtils.setDefaultIcon(element);
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        if(element != null) {
+                            Tags tags = element.getTags();
+                            if (tags != null && tags.getShop() != null) {
+                                markerIcon = IconsUtils.setShopIcon(element);
+                            }
+                            if (element.getTags() != null) {
+                                if (element.getTags().getRailway() != null) {
+                                    String railway = element.getTags().getRailway();
+                                    if (railway.equals(STATION)) {
+                                        markerIcon = IconsUtils.setRailwayIcon(element);
+                                    }
+                                } else if (element.getTags().getAeroway() != null) {
+                                    String aeroway = element.getTags().getAeroway();
+                                    if (aeroway.equals(AERODROME)) {
+                                        markerIcon = IconsUtils.setAirportIcon(element);
+                                    }
+                                } else if (element.getTags().getOffice() != null) {
+                                    String office = element.getTags().getOffice();
+                                    if (office != null && office.equals(GOVERNMENT)) {
+                                        markerIcon = IconsUtils.setAdministrationIcon(element);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    MarkerOptions marker = addMarkerElement(element, markerIcon);
+                    markerList.add(marker);
+                }
+            } else if (zoomLevel < TINY_ZOOM_LEVEL) {
+                markerList.clear();
+                for (Element element : elementList) {
+                    if (element != null) {
+                        BitmapDescriptor markerIcon = IconsUtils.setTinyIcon(element);
+                        MarkerOptions marker = addMarkerElement(element, markerIcon);
+                        markerList.add(marker);
+                    }
                 }
             }
+        }
+        return markerList;
+    }
+
+    private ArrayList<MarkerOptions> fillMarkerList(ArrayList<MarkerOptions> markerList, Element element, BitmapDescriptor markerIcon){
+        if (element != null && markerIcon != null) {
+            MarkerOptions marker = addMarkerElement(element, markerIcon);
+            markerList.add(marker);
         }
         return markerList;
     }
@@ -52,7 +123,7 @@ public class MarkerUtils implements Const{
         ArrayList<MarkerOptions> markerList = new ArrayList();
         for (Element element : elementList) {
             if (element != null) {
-                markerList = fillMarkerList(element, IconsUtils.setPharmacyIcon(element));
+                markerList = fillMarkerList(markerList, element, IconsUtils.setPharmacyIcon(element));
             }
         }
         return markerList;
@@ -62,7 +133,7 @@ public class MarkerUtils implements Const{
         ArrayList<MarkerOptions> markerList = new ArrayList();
         for (Element element : elementList) {
             if (element != null) {
-                markerList = fillMarkerList(element, IconsUtils.setHospitalIcon(element));
+                markerList = fillMarkerList(markerList, element, IconsUtils.setHospitalIcon(element));
             }
         }
         return markerList;
@@ -72,7 +143,7 @@ public class MarkerUtils implements Const{
         ArrayList<MarkerOptions> markerList = new ArrayList();
         for (Element element : elementList) {
             if (element != null) {
-                markerList = fillMarkerList(element, IconsUtils.setShopIcon(element));
+                markerList = fillMarkerList(markerList, element, IconsUtils.setShopIcon(element));
             }
         }
         return markerList;
@@ -82,17 +153,8 @@ public class MarkerUtils implements Const{
         ArrayList<MarkerOptions> markerList = new ArrayList();
         for (Element element : elementList) {
             if (element != null) {
-                markerList = fillMarkerList(element, IconsUtils.setATMIcon(element));
+                markerList = fillMarkerList(markerList, element, IconsUtils.setATMIcon(element));
             }
-        }
-        return markerList;
-    }
-
-    private ArrayList<MarkerOptions> fillMarkerList(Element element, BitmapDescriptor markerIcon){
-        ArrayList<MarkerOptions> markerList = new ArrayList();
-        if (element != null && markerIcon != null) {
-            MarkerOptions marker = addMarkerElement(element, markerIcon);
-            markerList.add(marker);
         }
         return markerList;
     }
@@ -118,39 +180,22 @@ public class MarkerUtils implements Const{
         return mapMarker;
     }
 
+    public void initZoomLevel(float previousZoomLevel){
+        this.mPreviousZoomLevel = previousZoomLevel;
+    }
+
     public float getPreveuosZoomLevel(){
         return mPreviousZoomLevel;
     }
 
-    public void drawMarkers(MainActivity activity, GoogleMap map, ArrayList<MarkerOptions> markersList, CameraPosition cameraPosition,
-                             ArrayList<Element> elementList, float previousZoomLevel, boolean mapIsTouched, boolean cameraMoved) {
+    public void drawMarkers(MainActivity activity, ArrayList<MarkerOptions> markersList, float currentZoom,
+                             ArrayList<Element> elementList, float previousZoomLevel) {
         if (markersList != null && !markersList.isEmpty()) {
-            float currentZoom = 0;
-
-            if (cameraPosition != null) {
-                currentZoom = cameraPosition.zoom;
-            } else {
-                if (previousZoomLevel != 0.0) {
-                    currentZoom = previousZoomLevel;
-                } else {
-                    CameraUtils.moveToCenterIf(map, true, mapIsTouched);
-                }
-            }
-
-            if ((!cameraMoved || ((previousZoomLevel != cameraPosition.zoom)) && (((previousZoomLevel < TINY_ZOOM_LEVEL) &&
-                    (cameraPosition.zoom >= TINY_ZOOM_LEVEL)) || ((previousZoomLevel >= TINY_ZOOM_LEVEL) && (cameraPosition.zoom < TINY_ZOOM_LEVEL))))) {
+            if ((((previousZoomLevel != currentZoom)) && (((previousZoomLevel < TINY_ZOOM_LEVEL) &&
+                    (currentZoom >= TINY_ZOOM_LEVEL)) || ((previousZoomLevel >= TINY_ZOOM_LEVEL) && (currentZoom < TINY_ZOOM_LEVEL))))) {
                 DrawMarkersTask drawMarkersTask = new DrawMarkersTask(activity, elementList, markersList);
                 drawMarkersTask.execute(currentZoom);
                 mPreviousZoomLevel = currentZoom;
-            }
-
-            boolean isMapLimitedEnabled = PreferencesManager.isMapLimitSetted();
-            if (!mapIsTouched && isMapLimitedEnabled && cameraMoved) {
-                LatLng newCameraPosition = cameraPosition.target;
-                if ((((newCameraPosition.latitude < MIN_LAT_IF_AREA) || newCameraPosition.latitude > MAX_LAT_IF_AREA)
-                        || (newCameraPosition.longitude < MIN_LON_IF_AREA) || (newCameraPosition.longitude > MAX_LON_IF_AREA))) {
-                    CameraUtils.limitCameraCityArea(map, newCameraPosition, currentZoom);
-                }
             }
         }
     }
