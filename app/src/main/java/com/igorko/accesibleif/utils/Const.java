@@ -17,6 +17,7 @@ public interface Const {
 
     int SETTINGS = 7;
     int ABOUT_US = 8;
+    int HOW_ITS_WORK = 9;
 
     String AMENITY_HOSPITAL = "hospital";
     String AMENITY_PHAPMACY = "pharmacy";
@@ -33,6 +34,7 @@ public interface Const {
 
     String ABOUT_FRAGMENT_TAG = "about";
     String SETTINGS_FRAGMENT_TAG = "settings";
+    String HOW_ITS_WORK_TAG = "how_its_work";
 
     String LOCATION_DATA_FILTER_NAME = "GPSLocationUpdates";
     int REQUEST_LOCATION = 10;

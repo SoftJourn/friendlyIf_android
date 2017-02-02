@@ -22,4 +22,13 @@
     <style name="AppStyle">
         <item name="android:textColorSecondary">@color/setting_text_color</item>
     </style>
+
+    <style name="how_its_work_grid_style" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/how_its_works_text_color</item>
+        <item name="android:height">100dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:background">@color/background_color</item>
+    </style>
 </resources>

@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.igorko.accesibleif.R;
 import com.igorko.accesibleif.fragments.AboutUsFagment;
+import com.igorko.accesibleif.fragments.HowItsWorkFagment;
 import com.igorko.accesibleif.fragments.SettingsFagment;
 import com.igorko.accesibleif.manager.PreferencesManager;
 import com.igorko.accesibleif.models.Data;
@@ -251,6 +252,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 showAboutUsInfo();
                 break;
             }
+            case HOW_ITS_WORK:{
+                hideProgress();
+                showHowItsWorkInfo();
+            }
             default: {
                 break;
             }
@@ -354,6 +359,14 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 .commit();
     }
 
+    private void showHowItsWorkInfo() {
+        mToolbar.setTitle(getString(R.string.how_its_work_title));
+        Fragment fragment = getFragmentManager().findFragmentByTag(HOW_ITS_WORK_TAG);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content, fragment == null ? HowItsWorkFagment.newInstance() : (HowItsWorkFagment) fragment, HOW_ITS_WORK_TAG)
+                .commit();
+    }
+
     private void hideInfo() {
         mToolbar.setTitle(getString(R.string.app_name));
 
@@ -371,6 +384,12 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             if (PreferencesManager.isMapLimitSetted() && mMap != null) {
                 CameraUtils.moveToCenterIf(mMap, false, false);
             }
+        }
+
+        Fragment howItsFragment = getFragmentManager().findFragmentByTag(HOW_ITS_WORK_TAG);
+        if (howItsFragment != null) {
+            getFragmentManager().beginTransaction().
+                    remove((HowItsWorkFagment) howItsFragment).commit();
         }
     }
 

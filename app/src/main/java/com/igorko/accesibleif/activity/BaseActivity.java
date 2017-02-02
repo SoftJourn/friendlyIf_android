@@ -56,7 +56,8 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
                         new PrimaryDrawerItem().withName(R.string.drawer_item_atm).withIcon(getMyDrawable(R.drawable.atm_icon)).withIdentifier(1),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(getMyDrawable(R.drawable.settings_ic)).withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_about).withIcon(getMyDrawable(R.drawable.about_icon)).withIdentifier(1)
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_about).withIcon(getMyDrawable(R.drawable.about_icon)).withIdentifier(1),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_how_its_work).withIcon(getMyDrawable(R.drawable.how_its_work_ic)).withIdentifier(1)
                 );
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
