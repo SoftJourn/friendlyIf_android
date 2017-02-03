@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.igorko.accesibleif.R;
 
-public class HowItsWorkFagment extends Fragment implements View.OnClickListener{
+public class HowItsWorkFagment extends Fragment{
 
     public static HowItsWorkFagment newInstance() {
         HowItsWorkFagment howItsWorkFagment = new HowItsWorkFagment();

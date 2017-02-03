@@ -26,9 +26,13 @@
     <string name="about_title">Про програму</string>
     <string name="how_its_work_title">Як це працює?</string>
 
-    <string name="accessible_buildings">Доступні будівлі</string>
-    <string name="little_accessible_buildings">Малодоступні будівлі</string>
-    <string name="inaccessible_buildings">Недоступні будівлі</string>
+    <string name="unavailable_buildings">Недоступні будівлі</string>
+    <string name="inaccessible_buildings">Малодоступні будівлі</string>
+    <string name="available_buildings">Доступні будівлі</string>
+
+    <string name="unavailable_buildings_description">Недоступні будівлі - це будівлі, до котрих неможливо потрапити на візку без сторонньої допомоги. Такі будівлі позначені червоним;</string>
+    <string name="inaccessible_buildings_description">Малодоступні будівлі - це будівлі, котрі мають так звані пандуси, проте вони незручні та робилися більше для вигляду, ніж для зручності. Ці будівлі позначені жовтим;</string>
+    <string name="available_buildings_description">Доступні будівлі - це такі будівлі, до котрих людям з обмеженими можливостями а також з дитячим візочком можна безперешкодно потрапити. Колір таких будівель - зелений.</string>
 
     <string name="description1">Програма розроблена для відображення наявності та якості пандусів до будівель Івано-Франківська. Дані для програми беруться з сервісу</string>
     <string name="http_open_street_map_url">http://www.openstreetmap.org</string>

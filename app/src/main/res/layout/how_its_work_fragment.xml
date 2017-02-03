@@ -2,48 +2,118 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    android:scrollbarStyle="outsideOverlay">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
+        android:padding="20dp">
 
-        <GridLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/big_red_ic" />
 
-            <TextView
-                style="@style/how_its_work_grid_style"
-                android:text="@string/inaccessible_buildings" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/how_its_work_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/unavailable_buildings"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/how_its_work_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/unavailable_buildings_description" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/big_yellow_ic" />
 
-            <TextView
-                style="@style/how_its_work_grid_style"
-                android:text="@string/little_accessible_buildings" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/how_its_work_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/inaccessible_buildings"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/how_its_work_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/inaccessible_buildings_description" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/big_green_ic" />
 
-            <TextView
-                style="@style/how_its_work_grid_style"
-                android:text="@string/accessible_buildings" />
-        </GridLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/how_its_work_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/available_buildings"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/how_its_work_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/available_buildings_description" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

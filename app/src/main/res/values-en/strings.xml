@@ -26,9 +26,13 @@
     <string name="about_title">About</string>
     <string name="how_its_work_title">How it`s work?</string>
 
-    <string name="accessible_buildings">Accessible buildings</string>
-    <string name="little_accessible_buildings">Little accessible buildings</string>
+    <string name="unavailable_buildings">Unavailable buildings</string>
     <string name="inaccessible_buildings">Inaccessible buildings</string>
+    <string name="available_buildings">Available buildings</string>
+
+    <string name="unavailable_buildings_description">Unavailable buildings - are buildings which is impossible to get in by wheelchair without any assistance. These buildings are red marked;</string>
+    <string name="inaccessible_buildings_description">Inaccessible buildings - are buildings that are equiped with ramps, but they are uncomfortable and made for look more than a convenience. These buildings are marked in yellow;</string>
+    <string name="available_buildings_description">These buildings to which people with disabilities as well as the babystrorels can easily get in. Color of buildings - green.</string>
 
     <string name="description1">The program is designed to inform about the availability and quality of ramps to the buildings in Ivano-Frankivsk. The application gets data from service</string>
     <string name="http_open_street_map_url">http://www.openstreetmap.org</string>
