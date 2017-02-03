@@ -125,8 +125,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 showProgress();
                 getAllBuildings();
             } else {
-                Toast.makeText(this, getString(R.string.no_internet_connection),
-                        Toast.LENGTH_SHORT).show();
+                showSnackbarMassage(getString(R.string.no_internet_connection));
             }
         } else {
             mElementList = savedInstanceState.getParcelableArrayList(ELEMENT_LIST_EXTRA);
@@ -150,7 +149,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         findViewById(R.id.location_button).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if (LocationUtils.isLocationEnabled()) {
                     if (mMyLocation != null) {
                         moveToCurrentLocation(mMyLocation);
@@ -164,10 +163,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                                     mMap.animateCamera(CameraUpdateFactory.newLatLng(
                                             new LatLng(mMyLocation.getLatitude(), mMyLocation.getLongitude())));
                                 } else {
-                                    Toast.makeText(MainActivity.this, getString(R.string.cant_detect_location), Toast.LENGTH_SHORT).show();
+                                    showSnackbarMassage(getString(R.string.cant_detect_location));
                                 }
                             } else {
-                                Toast.makeText(MainActivity.this, getString(R.string.gps_not_enabled_settings), Toast.LENGTH_SHORT).show();
+                                showSnackbarMassage(getString(R.string.gps_not_enabled_settings));
                             }
                             if (mMyLocation != null) {
                                 moveToCurrentLocation(mMyLocation);
@@ -175,10 +174,21 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                         }
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.gps_not_enabled_settings), Toast.LENGTH_SHORT).show();
+                    showSnackBarMassageWithButton(view, getString(R.string.gps_not_enabled_settings), getString(R.string.go));
                 }
             }
         });
+    }
+
+    private void showSnackBarMassageWithButton(View view, String snackbarMessage, String buttonName){
+        Snackbar snackbar = Snackbar.make(view, snackbarMessage, Snackbar.LENGTH_LONG)
+                .setAction(buttonName, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showSettings();
+                    }
+                });
+        snackbar.show();
     }
 
     @Override

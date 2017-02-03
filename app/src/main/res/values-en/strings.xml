@@ -47,8 +47,9 @@
     <string name="map_settings">Map settings</string>
     <string name="limit_city_area">Limit the map</string>
     <string name="limit_city_area_desription">Watch city area map only</string>
-
+    <string name="go">Navigate</string>
     <string name="location_settings">Location settings</string>
+
     <string name="enable_current_location">Show current location</string>
     <string name="enable_current_location_desription">Show current location on the map using GPS navigation</string>
     <string name="enable_update_current_location">Watch for location changes</string>

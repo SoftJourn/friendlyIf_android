@@ -46,8 +46,9 @@
     <string name="map_settings">Налаштування карти</string>
     <string name="limit_city_area">Обмежити карту</string>
     <string name="limit_city_area_desription">Переглядати карту лише в межах міста</string>
-
+    <string name="go">Перейти</string>
     <string name="location_settings">Налаштування локації</string>
+
     <string name="enable_current_location">Відображати місцеположення</string>
     <string name="enable_current_location_desription">Показувати на карті поточне власне місцеположення за допоомогою GPS навігації</string>
     <string name="enable_update_current_location">Слідкувати за місцеположенням</string>
@@ -57,9 +58,9 @@
     <string name="location_error">Помилка визначення локації</string>
     <string name="gps_not_supported">GPS не підтримується</string>
     <string name="gps_not_enabled">GPS не включений</string>
-    <string name="gps_not_enabled_settings">GPS не ввімкнено, перейдіть до налаштуваннь щоб увімкнути GPS</string>
+    <string name="gps_not_enabled_settings">GPS не ввімкнено, перейдіть до налаштуваннь щоб увімкнути</string>
     <string name="cant_detect_location">Не вдалось визначити локацію</string>
-    <string name="gps_already_enabled">GPS включений</string>
+    <string name="gps_already_enabled">GPS вже ввімкнено</string>
     <string name="city_limit_message">Ви вийшли за межі міста</string>
 
     <string name="location_preference_checkbox_id">location_checkbox_id</string>
