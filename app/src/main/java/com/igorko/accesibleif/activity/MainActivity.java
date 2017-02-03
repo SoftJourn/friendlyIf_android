@@ -247,14 +247,15 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 showSettings();
                 break;
             }
+            case HOW_ITS_WORK:{
+                hideProgress();
+                showHowItsWorkInfo();
+                break;
+            }
             case ABOUT_US: {
                 hideProgress();
                 showAboutUsInfo();
                 break;
-            }
-            case HOW_ITS_WORK:{
-                hideProgress();
-                showHowItsWorkInfo();
             }
             default: {
                 break;

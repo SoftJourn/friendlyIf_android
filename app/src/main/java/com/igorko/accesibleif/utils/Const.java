@@ -16,8 +16,8 @@ public interface Const {
     int ATM_BUILDINGS = 5;
 
     int SETTINGS = 7;
-    int ABOUT_US = 8;
-    int HOW_ITS_WORK = 9;
+    int HOW_ITS_WORK = 8;
+    int ABOUT_US = 9;
 
     String AMENITY_HOSPITAL = "hospital";
     String AMENITY_PHAPMACY = "pharmacy";
