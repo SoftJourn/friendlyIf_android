@@ -574,8 +574,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         } else if (aboutFragment != null || settingsFragment != null && keyCode == KeyEvent.KEYCODE_BACK) {
             hideInfo();
             return true;
-        } else {
-            finish();
         }
         return super.onKeyDown(keyCode, event);
     }
