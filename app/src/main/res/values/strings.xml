@@ -59,6 +59,8 @@
     <string name="gps_not_supported">GPS не підтримується</string>
     <string name="gps_not_enabled">GPS не включений</string>
     <string name="gps_not_enabled_settings">GPS не ввімкнено, перейдіть до налаштуваннь щоб увімкнути</string>
+    <string name="go_to_location_settings">Ви справді бажаєте перейти на до налашувань GPS?</string>
+
     <string name="cant_detect_location">Не вдалось визначити локацію</string>
     <string name="gps_already_enabled">GPS вже ввімкнено</string>
     <string name="city_limit_message">Ви вийшли за межі міста</string>

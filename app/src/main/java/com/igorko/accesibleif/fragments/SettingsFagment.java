@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import com.igorko.accesibleif.R;
 import com.igorko.accesibleif.manager.PreferencesManager;
+import com.igorko.accesibleif.utils.DialogUtils;
 import com.igorko.accesibleif.utils.LocationUtils;
 
 /**
@@ -54,11 +55,7 @@ public class SettingsFagment extends PreferenceFragment {
         mLocationPreference = (CheckBoxPreference) findPreference(getString(R.string.location_preference_checkbox_id));
         mLocationPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                if(!LocationUtils.getInstance().isLocationEnabled()){
-                    LocationUtils.getInstance().enableLocation(mActivity);
-                }else {
-                    LocationUtils.getInstance().disableLocation(mActivity);
-                }
+                DialogUtils.showGotoLocationSettings(mActivity, mLocationPreference);
                 return true;
             }
         });

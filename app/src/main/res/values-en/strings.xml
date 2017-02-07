@@ -59,7 +59,9 @@
     <string name="location_error">Location detecting error</string>
     <string name="gps_not_supported">GPS is not supported</string>
     <string name="gps_not_enabled">GPS is not enabled</string>
-    <string name="gps_not_enabled_settings">GPS is not enabled, go to the Settings screen to turn GPS on</string>
+    <string name="gps_not_enabled_settings">GPS is not enabled, go to the location settings to enable</string>
+    <string name="go_to_location_settings">Do you really want to navigate to GPS settings?</string>
+
     <string name="cant_detect_location">Unable to determine the location</string>
     <string name="gps_already_enabled">GPS is enabled</string>
     <string name="city_limit_message">You went out of the city</string>
