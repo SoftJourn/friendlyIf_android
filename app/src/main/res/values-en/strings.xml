@@ -31,15 +31,15 @@
     <string name="available_buildings">Available buildings</string>
 
     <string name="unavailable_buildings_description">Unavailable buildings - are buildings which is impossible to get in by wheelchair without any assistance. These buildings are red marked;</string>
-    <string name="inaccessible_buildings_description">Inaccessible buildings - are buildings that are equiped with ramps, but they are uncomfortable and made for look more than a convenience. These buildings are marked in yellow;</string>
-    <string name="available_buildings_description">These buildings to which people with disabilities as well as the babystrorels can easily get in. Color of buildings - green.</string>
+    <string name="inaccessible_buildings_description">Inaccessible buildings - are buildings that are equipped with ramps, but they are uncomfortable and made for look more than a convenience. These buildings are marked in yellow;</string>
+    <string name="available_buildings_description">These buildings to which people with disabilities as well as the baby strollers can easily get in. Color of these buildings - green.</string>
 
     <string name="description1">The program is designed to inform about the availability and quality of ramps to the buildings in Ivano-Frankivsk. The application gets data from service</string>
     <string name="http_open_street_map_url">http://www.openstreetmap.org</string>
     <string name="open_street_map_url">www.openstreetmap.org</string>
     <string name="description2">and anyone can change the data</string>
 
-    <string name="go_to_site">You really want to go to this site?</string>
+    <string name="go_to_site">You really want to go to site?</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
     <string name="OSM_license">This program contains information from the OpenStreetMap, which is provided under the Open Database License (ODbL)</string>

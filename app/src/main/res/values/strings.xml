@@ -50,16 +50,16 @@
     <string name="location_settings">Налаштування локації</string>
 
     <string name="enable_current_location">Відображати місцеположення</string>
-    <string name="enable_current_location_desription">Показувати на карті поточне власне місцеположення за допоомогою GPS навігації</string>
+    <string name="enable_current_location_desription">Показувати на карті поточне власне місцеположення за допомогою GPS навігації</string>
     <string name="enable_update_current_location">Слідкувати за місцеположенням</string>
     <string name="enable_update_current_location_desription">Робота в режимі GPS навігатора</string>
     <string name="enable_update_current_location_checkbox_id">current_location_checkbox_id</string>
 
     <string name="location_error">Помилка визначення локації</string>
     <string name="gps_not_supported">GPS не підтримується</string>
-    <string name="gps_not_enabled">GPS не включений</string>
-    <string name="gps_not_enabled_settings">GPS не ввімкнено, перейдіть до налаштуваннь щоб увімкнути</string>
-    <string name="go_to_location_settings">Ви справді бажаєте перейти на до налашувань GPS?</string>
+    <string name="gps_not_enabled">GPS не ввімкнено</string>
+    <string name="gps_not_enabled_settings">GPS не ввімкнено, перейдіть до налаштувань щоб увімкнути</string>
+    <string name="go_to_location_settings">Ви справді бажаєте перейти до налаштувань GPS?</string>
 
     <string name="cant_detect_location">Не вдалось визначити локацію</string>
     <string name="gps_already_enabled">GPS вже ввімкнено</string>
@@ -75,7 +75,7 @@
     <string name="developer_email">igorkoromanchuk@gmail.com</string>
 
     <string name="data_adding">Додавання даних:</string>
-    <string name="data_adding_name_1">Дороніня Тетяна</string>
+    <string name="data_adding_name_1">Дороніна Тетяна</string>
     <string name="data_adding_email_1">tanyadewdrop@gmail.com</string>
 
     <string name="data_adding_name_2">Гураль Ярослав</string>
