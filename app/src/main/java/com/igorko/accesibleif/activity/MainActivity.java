@@ -566,13 +566,35 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Fragment aboutFragment = getFragmentManager().findFragmentByTag(ABOUT_FRAGMENT_TAG);
-        Fragment settingsFragment = getFragmentManager().findFragmentByTag(SETTINGS_FRAGMENT_TAG);
-
         if (mDrawer.isDrawerOpen()) {
             mDrawer.closeDrawer();
-        } else if (aboutFragment != null || settingsFragment != null && keyCode == KeyEvent.KEYCODE_BACK) {
-            hideInfo();
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Fragment aboutFragment = getFragmentManager().findFragmentByTag(ABOUT_FRAGMENT_TAG);
+            if (aboutFragment != null) {
+                getFragmentManager().beginTransaction().
+                        remove((AboutUsFagment) aboutFragment).commit();
+            }
+
+            Fragment settingsFragment = getFragmentManager().findFragmentByTag(SETTINGS_FRAGMENT_TAG);
+            if (settingsFragment != null) {
+                getFragmentManager().beginTransaction().
+                        remove((SettingsFagment) settingsFragment).commit();
+
+                if (PreferencesManager.isMapLimitSetted() && mMap != null) {
+                    CameraUtils.moveToCenterIf(mMap, false, false);
+                }
+            }
+
+            Fragment howItsFragment = getFragmentManager().findFragmentByTag(HOW_ITS_WORK_TAG);
+            if (howItsFragment != null) {
+                getFragmentManager().beginTransaction().
+                        remove((HowItsWorkFagment) howItsFragment).commit();
+            }
+
+            if(aboutFragment == null && settingsFragment == null && howItsFragment == null){
+                //user is on main scrren now
+                finish();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
