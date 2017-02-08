@@ -574,6 +574,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         if (mDrawer.isDrawerOpen()) {
             mDrawer.closeDrawer();
         } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+            mSelectedMenuPosition = 0;
+
             Fragment aboutFragment = getFragmentManager().findFragmentByTag(ABOUT_FRAGMENT_TAG);
             if (aboutFragment != null) {
                 getFragmentManager().beginTransaction().
