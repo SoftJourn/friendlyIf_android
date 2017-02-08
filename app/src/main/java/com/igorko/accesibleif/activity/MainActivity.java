@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private CameraPosition mCameraPosition;
     private NetworkCallback<Data> mNetworkCallback;
     private boolean mIsActivityVisible = true;
+    private long mOnRecentBackPressedTime;
 
     public void onStart() {
         initGoogleApiClient(MainActivity.this);
@@ -592,8 +593,13 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
 
             if(aboutFragment == null && settingsFragment == null && howItsFragment == null){
-                //user is on main scrren now
-                finish();
+                //user is on main screen now
+                if (System.currentTimeMillis() - mOnRecentBackPressedTime > RECENT_BACK_PRESSED_TIME) {
+                    mOnRecentBackPressedTime = System.currentTimeMillis();
+                    Toast.makeText(this, getString(R.string.press_again_to_exit), Toast.LENGTH_SHORT).show();
+                }else{
+                    finish();
+                }
             }
             return true;
         }

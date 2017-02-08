@@ -61,6 +61,7 @@
     <string name="gps_not_enabled">GPS is not enabled</string>
     <string name="gps_not_enabled_settings">GPS is not enabled, go to the location settings to enable</string>
     <string name="go_to_location_settings">Do you really want to navigate to GPS settings?</string>
+    <string name="press_again_to_exit">Press again to exit</string>
 
     <string name="cant_detect_location">Unable to determine the location</string>
     <string name="gps_already_enabled">GPS is enabled</string>

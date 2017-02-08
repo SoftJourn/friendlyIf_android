@@ -49,4 +49,6 @@ public interface Const {
     double MAX_LAT_IF_AREA = 48.94;
     double MIN_LON_IF_AREA = 24.75;
     double MAX_LON_IF_AREA = 24.69;
+
+    int RECENT_BACK_PRESSED_TIME = 2000;
 }

@@ -27,9 +27,9 @@ public class DialogUtils {
         alertDialog.show();
     }
 
-    public static void showGotoLocationSettings(final Activity activity, final CheckBoxPreference locationPreference){
+    public static void showGotoLocationSettingsAlert(final Activity activity, final CheckBoxPreference locationPreference){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-        alertDialogBuilder.setView(activity.getLayoutInflater().inflate(R.layout.goto_location_settings_layout, null));
+        alertDialogBuilder.setView(activity.getLayoutInflater().inflate(R.layout.goto_location_settings_dialog_layout, null));
         alertDialogBuilder
                 .setPositiveButton(activity.getString(R.string.btn_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

@@ -55,7 +55,7 @@ public class SettingsFagment extends PreferenceFragment {
         mLocationPreference = (CheckBoxPreference) findPreference(getString(R.string.location_preference_checkbox_id));
         mLocationPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                DialogUtils.showGotoLocationSettings(mActivity, mLocationPreference);
+                DialogUtils.showGotoLocationSettingsAlert(mActivity, mLocationPreference);
                 return true;
             }
         });
