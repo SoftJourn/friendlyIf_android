@@ -109,32 +109,49 @@ public class MarkerUtils implements Const{
     }
 
     private MarkerOptions addMarkerElement(Element element, BitmapDescriptor markerIcon) {
-        String name = element.getTags().getName();
-        LatLng coordinates;
-        if (element.getBounds() != null) {
-            Bounds bounds = element.getBounds();
-            double lat = (bounds.getMinlat() + bounds.getMaxlat()) / 2;
-            double lon = (bounds.getMinlon() + bounds.getMaxlon()) / 2;
-            coordinates = new LatLng(lat, lon);
-        } else {
-            coordinates = new LatLng(element.getLat(), element.getLon());
+
+        MarkerOptions mapMarker = null;
+
+        if(element != null && element.getTags() != null && markerIcon != null){
+            String operator = element.getTags().getOperator();
+            String name = element.getTags().getName();
+
+            LatLng coordinates;
+            if (element.getBounds() != null) {
+                Bounds bounds = element.getBounds();
+                double lat = (bounds.getMinlat() + bounds.getMaxlat()) / 2;
+                double lon = (bounds.getMinlon() + bounds.getMaxlon()) / 2;
+                coordinates = new LatLng(lat, lon);
+            } else {
+                coordinates = new LatLng(element.getLat(), element.getLon());
+            }
+
+            String markerName;
+            if(operator!= null && !operator.isEmpty()){
+                markerName = operator;
+            }else {
+                markerName = name;
+            }
+
+            if (markerName == null || markerName.isEmpty()) {
+                markerName = AppContext.getInstance().getString(R.string.no_name);
+            }
+
+            mapMarker = new MarkerOptions().position(coordinates).title(markerName);
+            mapMarker.icon(markerIcon);
         }
 
-        if (name == null || name.isEmpty()) {
-            name = AppContext.getInstance().getString(R.string.no_name);
-        }
-
-        MarkerOptions mapMarker = new MarkerOptions().position(coordinates).title(name);
-        mapMarker.icon(markerIcon);
         return mapMarker;
     }
 
     public ArrayList<MarkerOptions> addMarkers(GoogleMap googleMap, ArrayList<MarkerOptions> markerList) {
         if (googleMap != null) {
             googleMap.clear();
-            if (markerList != null) {
+            if (markerList != null && !markerList.isEmpty()) {
                 for (MarkerOptions markerOptions : markerList) {
-                    googleMap.addMarker(markerOptions);
+                    if (markerOptions != null) {
+                        googleMap.addMarker(markerOptions);
+                    }
                 }
             }
         }

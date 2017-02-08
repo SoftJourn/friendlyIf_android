@@ -16,6 +16,7 @@ public class Tags implements Parcelable {
     String office;
     String wheelchair;
     String amenity;
+    String operator;
     String name;
     String opening_hours;
     String shop;
@@ -31,6 +32,14 @@ public class Tags implements Parcelable {
 
     public String getAmenity() {
         return amenity;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 
     public String getName() {
