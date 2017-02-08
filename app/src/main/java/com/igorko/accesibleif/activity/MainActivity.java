@@ -455,6 +455,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 appTitle = getString(R.string.about_title);
                 break;
             }
+            case HOW_ITS_WORK:{
+                appTitle = getString(R.string.how_its_work_title);
+                break;
+            }
             default: {
                 appTitle = getString(R.string.app_name);
                 break;
@@ -574,6 +578,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             if (aboutFragment != null) {
                 getFragmentManager().beginTransaction().
                         remove((AboutUsFagment) aboutFragment).commit();
+                initToolbar(getString(R.string.app_name));
             }
 
             Fragment settingsFragment = getFragmentManager().findFragmentByTag(SETTINGS_FRAGMENT_TAG);
@@ -581,6 +586,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 getFragmentManager().beginTransaction().
                         remove((SettingsFagment) settingsFragment).commit();
 
+                initToolbar(getString(R.string.app_name));
                 if (PreferencesManager.isMapLimitSetted() && mMap != null) {
                     CameraUtils.moveToCenterIf(mMap, false, false);
                 }
@@ -590,6 +596,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             if (howItsFragment != null) {
                 getFragmentManager().beginTransaction().
                         remove((HowItsWorkFagment) howItsFragment).commit();
+                initToolbar(getString(R.string.app_name));
             }
 
             if(aboutFragment == null && settingsFragment == null && howItsFragment == null){
