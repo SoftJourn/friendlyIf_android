@@ -60,7 +60,7 @@
     <string name="gps_not_enabled">GPS не ввімкнено</string>
     <string name="gps_not_enabled_settings">GPS не ввімкнено, перейдіть до налаштувань щоб увімкнути</string>
     <string name="go_to_location_settings">Ви справді бажаєте перейти до налаштувань GPS?</string>
-    <string name="press_again_to_exit">Натисніть ще раз щоб вийти</string>
+    <string name="press_again_to_exit">Натисніть ще раз, щоб вийти</string>
 
     <string name="cant_detect_location">Не вдалось визначити локацію</string>
     <string name="gps_already_enabled">GPS вже ввімкнено</string>
