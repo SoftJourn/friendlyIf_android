@@ -9,6 +9,15 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ApiService {
+
+    //TODO
+    /*@GET
+    Call<Data> getData(@Url String url);
+
+    @GET("api/interpreter")
+    Call<Data> getDataWithQuery(@Query("data") String data);
+    */
+
     /*
     [out:json]
     [bbox:48.8614907,24.6424252,48.9567578,24.7589659];
