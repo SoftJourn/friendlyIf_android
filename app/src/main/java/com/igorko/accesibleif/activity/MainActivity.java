@@ -243,15 +243,18 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             case SETTINGS: {
                 hideProgress();
                 showSettings();
+                isGetData = false;
                 break;
             }
             case HOW_ITS_WORK: {
                 hideProgress();
+                isGetData = false;
                 showHowItsWorkInfo();
                 break;
             }
             case ABOUT_US: {
                 hideProgress();
+                isGetData = false;
                 showAboutUsInfo();
                 break;
             }
@@ -260,11 +263,13 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
         }
 
-        if (NetworkUtils.isOnline() && isGetData) {
-            showProgress();
-            mDataManager.getData(mSelectedType);
-        } else {
-            showSnackbarMassage(getString(R.string.no_internet_connection));
+        if(isGetData){
+            if (NetworkUtils.isOnline()) {
+                showProgress();
+                mDataManager.getData(mSelectedType);
+            } else {
+                showSnackbarMassage(getString(R.string.no_internet_connection));
+            }
         }
 
         mSelectedMenuPosition = --position;
