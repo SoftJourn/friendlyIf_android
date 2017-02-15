@@ -45,6 +45,7 @@ public interface Const {
 
     String FOLLOW_PREFERENCE = "follow_locaton";
     String MAP_LIMIT_PREFERENCE = "map_limit";
+    String CITY_NAME_PREFERENCE = "city_preference";
 
     float TINY_ZOOM_LEVEL = 16.0f;
     float MAX_ZOOM_LEVEL = 12.3f;
@@ -54,10 +55,9 @@ public interface Const {
     double MIN_LON_IF_AREA = 24.75;
     double MAX_LON_IF_AREA = 24.69;
 
-//    TODO
-//    String CITY_CENTER_LATITUDE_PREFERENCE = "city_center_latitude";
-//    String CITY_CENTER_LONGITUDE_PREFERENCE = "city_center_longitude";
-//    String CITY_RADIUS = "city_radius";
+    String CITY_CENTER_LATITUDE_PREFERENCE = "city_center_latitude";
+    String CITY_CENTER_LONGITUDE_PREFERENCE = "city_center_longitude";
+    String CITY_RADIUS = "city_radius";
 
     int RECENT_BACK_PRESSED_TIME = 2000;
 }

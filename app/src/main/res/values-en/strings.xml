@@ -55,6 +55,7 @@
     <string name="enable_update_current_location">Watch for location changes</string>
     <string name="enable_update_current_location_desription">GPS navigator mode</string>
     <string name="enable_update_current_location_checkbox_id">current_location_checkbox_id</string>
+    <string name="city_list_preference_id">city_list_preference_id</string>
 
     <string name="location_error">Location detecting error</string>
     <string name="gps_not_supported">GPS is not supported</string>
@@ -67,7 +68,7 @@
     <string name="gps_already_enabled">GPS is enabled</string>
     <string name="city_limit_message">You went out of the city</string>
     <string name="select_current_city">Select a current city</string>
-    <string name="select_current_city_description">Select a city for data displaying</string>
+    <string name="select_current_city_description">Press here for selecting a city for data displaying</string>
 
     <string-array name="cityesArray">
         <item>Ivano-Frankivsk</item>

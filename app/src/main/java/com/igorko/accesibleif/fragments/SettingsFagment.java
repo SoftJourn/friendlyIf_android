@@ -1,13 +1,14 @@
 package com.igorko.accesibleif.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import com.igorko.accesibleif.R;
+import com.igorko.accesibleif.manager.CityManager;
 import com.igorko.accesibleif.manager.PreferencesManager;
 import com.igorko.accesibleif.utils.DialogUtils;
 import com.igorko.accesibleif.utils.LocationUtils;
@@ -18,10 +19,10 @@ import com.igorko.accesibleif.utils.LocationUtils;
 
 public class SettingsFagment extends PreferenceFragment {
 
-    private Activity mActivity;
     private CheckBoxPreference mMapLimitPreference;
     private CheckBoxPreference mLocationPreference;
     private CheckBoxPreference mEnableUpdateLocationPreference;
+    private ListPreference mCityListPeference;
 
     public static SettingsFagment newInstance() {
         SettingsFagment settingsFagment = new SettingsFagment();
@@ -39,7 +40,6 @@ public class SettingsFagment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings_screen);
 
-        mActivity = getActivity();
         mMapLimitPreference = (CheckBoxPreference) findPreference(getString(R.string.map_limit_preference_checkbox_id));
         mMapLimitPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
@@ -55,7 +55,7 @@ public class SettingsFagment extends PreferenceFragment {
         mLocationPreference = (CheckBoxPreference) findPreference(getString(R.string.location_preference_checkbox_id));
         mLocationPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                DialogUtils.showGotoLocationSettingsAlert(mActivity, mLocationPreference);
+                DialogUtils.showGotoLocationSettingsAlert(getActivity(), mLocationPreference);
                 return true;
             }
         });
@@ -67,6 +67,24 @@ public class SettingsFagment extends PreferenceFragment {
                 return true;
             }
         });
+
+        mCityListPeference = (ListPreference) findPreference(getString(R.string.city_list_preference_id));
+        mCityListPeference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                preference.setDefaultValue(CityManager.getCurrentCity());
+                return true;
+            }
+        });
+
+        mCityListPeference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                String selectedCity = String.valueOf(newValue);
+                CityManager.setCurrentCity(selectedCity);
+                mCityListPeference.setValue(selectedCity);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -75,5 +93,14 @@ public class SettingsFagment extends PreferenceFragment {
         mMapLimitPreference.setChecked(PreferencesManager.isMapLimitSetted());
         mLocationPreference.setChecked(LocationUtils.getInstance().isLocationEnabled());
         mEnableUpdateLocationPreference.setChecked(PreferencesManager.isFollowingLocation());
+        mCityListPeference.setValue(getSavedCurrentCity());
+    }
+
+    private String getSavedCurrentCity() {
+        String currentCity = CityManager.getCurrentCity();
+        if(!currentCity.isEmpty()){
+            mCityListPeference.setValue(CityManager.getCurrentCity());
+        }
+        return currentCity;
     }
 }

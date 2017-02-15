@@ -54,6 +54,7 @@
     <string name="enable_update_current_location">Слідкувати за місцеположенням</string>
     <string name="enable_update_current_location_desription">Робота в режимі GPS навігатора</string>
     <string name="enable_update_current_location_checkbox_id">current_location_checkbox_id</string>
+    <string name="city_list_preference_id">city_list_preference_id</string>
 
     <string name="location_error">Помилка визначення локації</string>
     <string name="gps_not_supported">GPS не підтримується</string>
@@ -66,7 +67,7 @@
     <string name="gps_already_enabled">GPS вже ввімкнено</string>
     <string name="city_limit_message">Ви вийшли за межі міста</string>
     <string name="select_current_city">Виберіть поточне місто</string>
-    <string name="select_current_city_description">Виберіть місто для відображення даних</string>
+    <string name="select_current_city_description">Натисніть, щоб вибрати місто для відображення даних</string>
 
     <string-array name="cityesArray">
         <item>Івано-Франківськ</item>
