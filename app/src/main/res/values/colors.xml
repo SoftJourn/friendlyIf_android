@@ -8,6 +8,9 @@
     <color name="dialog_text_color">#000000</color>
     <color name="actionbar_text_color">#FFFFFF</color>
     <color name="snackbar_text_color">#FFFFFF</color>
+
     <color name="setting_text_color">#000000</color>
+    <color name="dialog_button_color">#FFFFFF</color>
+
     <color name="how_its_works_text_color">#000000</color>
 </resources>

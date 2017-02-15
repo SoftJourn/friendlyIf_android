@@ -31,4 +31,17 @@
             android:summary="@string/enable_update_current_location_desription"
             android:title="@string/enable_update_current_location" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="city_chooser"
+        android:title="@string/select_current_city" />
+
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/cityesArray"
+        android:entryValues="@array/cityesArray"
+        android:key="downloadType"
+        android:summary="@string/select_current_city_description"
+        android:textColor="@color/setting_text_color"
+        android:title="@string/select_current_city" />
 </PreferenceScreen>
