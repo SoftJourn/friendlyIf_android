@@ -6,6 +6,10 @@ package com.igorko.accesibleif.utils;
 
 public interface Const {
 
+    enum BuildingsType{
+        ALL, HOSPITALS, PHARMACIES, SHOPS, ATMs;
+    }
+
     String TAG = "tag";
     String BASE_URL = "http://overpass-api.de";
 
@@ -49,6 +53,11 @@ public interface Const {
     double MAX_LAT_IF_AREA = 48.94;
     double MIN_LON_IF_AREA = 24.75;
     double MAX_LON_IF_AREA = 24.69;
+
+//    TODO
+//    String CITY_CENTER_LATITUDE_PREFERENCE = "city_center_latitude";
+//    String CITY_CENTER_LONGITUDE_PREFERENCE = "city_center_longitude";
+//    String CITY_RADIUS = "city_radius";
 
     int RECENT_BACK_PRESSED_TIME = 2000;
 }

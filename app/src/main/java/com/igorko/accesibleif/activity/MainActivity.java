@@ -43,10 +43,11 @@ import com.igorko.accesibleif.R;
 import com.igorko.accesibleif.fragments.AboutUsFagment;
 import com.igorko.accesibleif.fragments.HowItsWorkFagment;
 import com.igorko.accesibleif.fragments.SettingsFagment;
+import com.igorko.accesibleif.manager.DataManager;
+import com.igorko.accesibleif.manager.IDataManager;
 import com.igorko.accesibleif.manager.PreferencesManager;
 import com.igorko.accesibleif.models.Data;
 import com.igorko.accesibleif.models.Element;
-import com.igorko.accesibleif.retrofit.ApiManager;
 import com.igorko.accesibleif.retrofit.NetworkCallback;
 import com.igorko.accesibleif.services.LocationService;
 import com.igorko.accesibleif.utils.CameraUtils;
@@ -60,8 +61,10 @@ import com.igorko.accesibleif.utils.NumberUtils;
 import com.mikepenz.materialdrawer.Drawer;
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity implements OnMapReadyCallback, Const, Extras {
+public class MainActivity extends BaseActivity implements OnMapReadyCallback, Const, Extras, DataManager.IDataListener {
 
+    private IDataManager mDataManager;
+    private BuildingsType mSelectedType = BuildingsType.ALL;
     private CoordinatorLayout mCoordinatorLayout;
     private Bundle mSavedInstanceState;
     private Drawer.Result mDrawer;
@@ -78,7 +81,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private float mZoomLevel;
     private float mPreviousZoomLevel;
     private CameraPosition mCameraPosition;
-    private NetworkCallback<Data> mNetworkCallback;
+    private NetworkCallback<Data, BuildingsType> mNetworkCallback;
     private boolean mIsActivityVisible = true;
     private long mOnRecentBackPressedTime;
 
@@ -93,6 +96,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         setContentView(R.layout.activity_main);
         mSavedInstanceState = savedInstanceState;
 
+        mDataManager = new DataManager(this);
+
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             setTheme(R.style.AppStyle);
@@ -103,9 +108,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         String appTitle;
 
-        mNetworkCallback = new NetworkCallback<Data>() {
+        mNetworkCallback = new NetworkCallback<Data, BuildingsType>() {
             @Override
-            public void onSuccess(Data response) {
+            public void onSuccess(Data response, BuildingsType type) {
                 if (mIsActivityVisible) {
                     onResponseSuccess(response);
                 }
@@ -122,9 +127,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         if (savedInstanceState == null) {
             appTitle = getAppTitle(ALL_ACSSESIBLE_BUILDINGS);
-            if (NetworkUtils.isOnline(this)) {
+            if (NetworkUtils.isOnline()) {
                 showProgress();
-                getAllBuildings();
+                mDataManager.getData(mSelectedType);
             } else {
                 showSnackbarMassage(getString(R.string.no_internet_connection));
             }
@@ -181,7 +186,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         });
     }
 
-    private void showSnackBarMassageWithButton(View view, String snackbarMessage, String buttonName){
+    private void showSnackBarMassageWithButton(View view, String snackbarMessage, String buttonName) {
         Snackbar snackbar = Snackbar.make(view, snackbarMessage, Snackbar.LENGTH_LONG)
                 .setAction(buttonName, new View.OnClickListener() {
                     @Override
@@ -207,50 +212,32 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             hideInfo();
         }
 
+        boolean isGetData = false;
+
         switch (position) {
             case ALL_ACSSESIBLE_BUILDINGS: {
-                if (NetworkUtils.isOnline(this)) {
-                    showProgress();
-                    getAllBuildings();
-                } else {
-                    showSnackbarMassage(getString(R.string.no_internet_connection));
-                }
+                mSelectedType = BuildingsType.ALL;
+                isGetData = true;
                 break;
             }
             case HOSPITAL_ACSSESIBLE_BUILDINGS: {
-                if (NetworkUtils.isOnline(this)) {
-                    showProgress();
-                    getHospitalBuildings();
-                } else {
-                    showSnackbarMassage(getString(R.string.no_internet_connection));
-                }
+                mSelectedType = BuildingsType.HOSPITALS;
+                isGetData = true;
                 break;
             }
             case PHARMACY_ACSSESIBLE_BUILDINGS: {
-                if (NetworkUtils.isOnline(this)) {
-                    showProgress();
-                    getPharmacyBuildings();
-                } else {
-                    showSnackbarMassage(getString(R.string.no_internet_connection));
-                }
+                mSelectedType = BuildingsType.PHARMACIES;
+                isGetData = true;
                 break;
             }
             case SHOP_BUILDINGS: {
-                if (NetworkUtils.isOnline(this)) {
-                    showProgress();
-                    getShopBuildings();
-                } else {
-                    showSnackbarMassage(getString(R.string.no_internet_connection));
-                }
+                mSelectedType = BuildingsType.SHOPS;
+                isGetData = true;
                 break;
             }
             case ATM_BUILDINGS: {
-                if (NetworkUtils.isOnline(this)) {
-                    showProgress();
-                    getATMBuildings();
-                } else {
-                    showSnackbarMassage(getString(R.string.no_internet_connection));
-                }
+                mSelectedType = BuildingsType.ATMs;
+                isGetData = true;
                 break;
             }
             case SETTINGS: {
@@ -258,7 +245,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 showSettings();
                 break;
             }
-            case HOW_ITS_WORK:{
+            case HOW_ITS_WORK: {
                 hideProgress();
                 showHowItsWorkInfo();
                 break;
@@ -272,6 +259,14 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 break;
             }
         }
+
+        if (NetworkUtils.isOnline() && isGetData) {
+            showProgress();
+            mDataManager.getData(mSelectedType);
+        } else {
+            showSnackbarMassage(getString(R.string.no_internet_connection));
+        }
+
         mSelectedMenuPosition = --position;
     }
 
@@ -291,7 +286,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
          /*For screen rotation before request call*/
         if (mElementList == null) {
-            getAllBuildings();
+            mDataManager.getData(mSelectedType);
             moveToCenterIf(mMap, true);
         }
 
@@ -322,26 +317,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
     public void initMarkerList(ArrayList<MarkerOptions> markerList) {
         mMarkerList = markerList;
-    }
-
-    void getAllBuildings() {
-        ApiManager.getInstance().getApiProvider().getAllBuildings(mNetworkCallback);
-    }
-
-    void getPharmacyBuildings() {
-        ApiManager.getInstance().getApiProvider().getPharmacyBuildings(mNetworkCallback);
-    }
-
-    void getHospitalBuildings() {
-        ApiManager.getInstance().getApiProvider().getHospitalBuildings(mNetworkCallback);
-    }
-
-    void getShopBuildings() {
-        ApiManager.getInstance().getApiProvider().getShopBuildings(mNetworkCallback);
-    }
-
-    void getATMBuildings() {
-        ApiManager.getInstance().getApiProvider().getATMBuildings(mNetworkCallback);
     }
 
     private void onResponseSuccess(Data response) {
@@ -455,7 +430,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 appTitle = getString(R.string.about_title);
                 break;
             }
-            case HOW_ITS_WORK:{
+            case HOW_ITS_WORK: {
                 appTitle = getString(R.string.how_its_work_title);
                 break;
             }
@@ -601,12 +576,12 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 initToolbar(getString(R.string.app_name));
             }
 
-            if(aboutFragment == null && settingsFragment == null && howItsFragment == null){
+            if (aboutFragment == null && settingsFragment == null && howItsFragment == null) {
                 //user is on main screen now
                 if (System.currentTimeMillis() - mOnRecentBackPressedTime > RECENT_BACK_PRESSED_TIME) {
                     mOnRecentBackPressedTime = System.currentTimeMillis();
                     Toast.makeText(this, getString(R.string.press_again_to_exit), Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     finish();
                 }
             }
@@ -681,5 +656,15 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onReceivedData(Data data, BuildingsType type) {
+        onResponseSuccess(data);
+    }
+
+    @Override
+    public void onDataError(int msgErrorId) {
+        showSnackbarMassage(getString(msgErrorId));
     }
 }

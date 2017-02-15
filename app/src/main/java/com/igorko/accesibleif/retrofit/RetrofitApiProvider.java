@@ -1,7 +1,6 @@
 package com.igorko.accesibleif.retrofit;
 
 import com.igorko.accesibleif.R;
-import com.igorko.accesibleif.app.AppContext;
 import com.igorko.accesibleif.models.Data;
 import com.igorko.accesibleif.utils.Const;
 import com.igorko.accesibleif.utils.ErrorCodes;
@@ -30,12 +29,13 @@ public class RetrofitApiProvider implements Const, ErrorCodes {
                 .create(ApiService.class);
     }
 
-    public void getAllBuildings(final NetworkCallback<Data> callback) {
-        mApiService.getAllBuildings().enqueue(new Callback<Data>() {
+
+    public void getBuildingsByType(final BuildingsType type, final NetworkCallback<Data, BuildingsType> callback) {
+        Callback<Data> retrofitCallBack =  new Callback<Data>() {
             public void onResponse(Call<Data> call, Response<Data> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    if (callback != null){
-                        callback.onSuccess(response.body());
+                if (response.isSuccessful() && response.body() != null) {
+                    if (callback != null) {
+                        callback.onSuccess(response.body(), type);
                     }
                 }
             }
@@ -44,82 +44,31 @@ public class RetrofitApiProvider implements Const, ErrorCodes {
             public void onFailure(Call<Data> call, Throwable t) {
                 handleError(callback, t);
             }
-        });
+        };
+
+        switch (type){
+            case ALL:
+                mApiService.getAllBuildings().enqueue(retrofitCallBack);
+                break;
+            case HOSPITALS:
+                mApiService.getHospitalBuildings().enqueue(retrofitCallBack);
+                break;
+            case PHARMACIES:
+                mApiService.getPharmacyBuildings().enqueue(retrofitCallBack);
+                break;
+            case SHOPS:
+                mApiService.getShopBuildings().enqueue(retrofitCallBack);
+                break;
+            case ATMs:
+                mApiService.getATMBuildings().enqueue(retrofitCallBack);
+                break;
+            default:
+                mApiService.getAllBuildings().enqueue(retrofitCallBack);;
+        }
     }
 
-    public void getPharmacyBuildings(final NetworkCallback<Data> callback) {
-        mApiService.getPharmacyBuildings().enqueue(new Callback<Data>() {
-            public void onResponse(Call<Data> call, Response<Data> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    if (callback != null){
-                        callback.onSuccess(response.body());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Data> call, Throwable t) {
-                handleError(callback, t);
-            }
-        });
-    }
-
-    public void getHospitalBuildings(final NetworkCallback<Data> callback) {
-        mApiService.getHospitalBuildings().enqueue(new Callback<Data>() {
-            @Override
-            public void onResponse(Call<Data> call, Response<Data> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    if (callback != null){
-                        callback.onSuccess(response.body());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Data> call, Throwable t) {
-                handleError(callback, t);
-            }
-        });
-    }
-
-    public void getShopBuildings(final NetworkCallback<Data> callback) {
-        mApiService.getShopBuildings().enqueue(new Callback<Data>() {
-            @Override
-            public void onResponse(Call<Data> call, Response<Data> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    if (callback != null){
-                        callback.onSuccess(response.body());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Data> call, Throwable t) {
-                handleError(callback, t);
-            }
-        });
-    }
-
-    public void getATMBuildings(final NetworkCallback<Data> callback) {
-        mApiService.getATMBuildings().enqueue(new Callback<Data>() {
-            @Override
-            public void onResponse(Call<Data> call, Response<Data> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    if (callback != null){
-                        callback.onSuccess(response.body());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Data> call, Throwable t) {
-                handleError(callback, t);
-            }
-        });
-    }
-
-    private void handleError(NetworkCallback<Data> callback, Throwable t){
-        if(!NetworkUtils.isOnline(AppContext.getInstance())){
+    private void handleError(NetworkCallback<Data, BuildingsType> callback, Throwable t){
+        if(!NetworkUtils.isOnline()){
             onError(NO_INTERNET_CONNECTION, callback);
         }else{
             if (t instanceof UnknownHostException){
