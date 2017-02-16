@@ -67,7 +67,6 @@
     <string name="gps_already_enabled">GPS вже ввімкнено</string>
     <string name="city_limit_message">Ви вийшли за межі міста</string>
     <string name="select_current_city">Виберіть поточне місто</string>
-    <string name="select_current_city_description">Натисніть, щоб вибрати місто для відображення даних</string>
 
     <string-array name="cityesArray">
         <item>Івано-Франківськ</item>

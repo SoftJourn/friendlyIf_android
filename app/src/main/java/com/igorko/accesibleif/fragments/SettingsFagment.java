@@ -69,6 +69,8 @@ public class SettingsFagment extends PreferenceFragment {
         });
 
         mCityListPeference = (ListPreference) findPreference(getString(R.string.city_list_preference_id));
+        mCityListPeference.setSummary(CityManager.getCurrentCity());
+
         mCityListPeference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 preference.setDefaultValue(CityManager.getCurrentCity());
@@ -81,7 +83,7 @@ public class SettingsFagment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 String selectedCity = String.valueOf(newValue);
                 CityManager.setCurrentCity(selectedCity);
-                mCityListPeference.setValue(selectedCity);
+                mCityListPeference.setSummary(selectedCity);
                 return true;
             }
         });
@@ -93,13 +95,17 @@ public class SettingsFagment extends PreferenceFragment {
         mMapLimitPreference.setChecked(PreferencesManager.isMapLimitSetted());
         mLocationPreference.setChecked(LocationUtils.getInstance().isLocationEnabled());
         mEnableUpdateLocationPreference.setChecked(PreferencesManager.isFollowingLocation());
-        mCityListPeference.setValue(getSavedCurrentCity());
+        mCityListPeference.setSummary(getSavedCurrentCity());
     }
 
     private String getSavedCurrentCity() {
         String currentCity = CityManager.getCurrentCity();
         if(!currentCity.isEmpty()){
-            mCityListPeference.setValue(CityManager.getCurrentCity());
+            mCityListPeference.setSummary(CityManager.getCurrentCity());
+        }else{
+            String[] cityesArray = getResources().getStringArray(R.array.cityesArray);
+            currentCity = cityesArray[0];
+            mCityListPeference.setSummary(currentCity);
         }
         return currentCity;
     }
