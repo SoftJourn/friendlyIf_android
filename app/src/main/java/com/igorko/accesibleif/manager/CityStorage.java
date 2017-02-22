@@ -18,13 +18,16 @@ public class CityStorage {
     }
 
     private void initCitiesList(){
-        mCitiesList = new LinkedList<>();
         City ifCity = new City(0, "Івано-Франківськ", new LatLng(48.922712, 24.710207), 10.0d);
         City lvivCity = new City(1, "Львів", new LatLng(49.841019, 24.028023), 15.0d);
-        City chernCity = new City(2, "Чернівці", new LatLng(48.2903, 25.9354), 8.0d);
+
+        mCitiesList = new LinkedList<>();
         mCitiesList.add(ifCity);
         mCitiesList.add(lvivCity);
-        mCitiesList.add(chernCity);
+
+//        TODO
+//        City chernivciCity = new City(2, "Чернівці", new LatLng(48.2903, 25.9354), 8.0d);
+//        mCitiesList.add(chernCity);
     }
 
     public List<City> getCitiesList(){

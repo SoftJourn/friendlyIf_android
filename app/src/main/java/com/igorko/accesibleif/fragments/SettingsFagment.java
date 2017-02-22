@@ -79,10 +79,12 @@ public class SettingsFagment extends PreferenceFragment {
 
         mCityListPeference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                mCityListPeference.setValue(mCityManager.getCurrentCity().getCityName());
+                preference.setDefaultValue(mCityManager.getCurrentCity().getCityId());
                 return true;
             }
         });
+        //set to index of your deafult value
+        mCityListPeference.setValueIndex(mCityManager.getCurrentCity().getCityId());
 
         mCityListPeference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
             @Override
@@ -103,6 +105,5 @@ public class SettingsFagment extends PreferenceFragment {
         mMapLimitPreference.setChecked(PreferencesManager.isMapLimitSetted());
         mLocationPreference.setChecked(LocationUtils.getInstance().isLocationEnabled());
         mEnableUpdateLocationPreference.setChecked(PreferencesManager.isFollowingLocation());
-        mCityListPeference.setSummary(mCurrentCity.getCityName());
     }
 }

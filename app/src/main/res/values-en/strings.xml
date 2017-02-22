@@ -69,11 +69,6 @@
     <string name="city_limit_message">You went out of the city</string>
     <string name="select_current_city">Select a current city</string>
 
-    <string-array name="cityesArray">
-        <item>Ivano-Frankivsk</item>
-        <item>Lviv</item>
-    </string-array>
-
     <string name="location_preference_checkbox_id">location_checkbox_id</string>
     <string name="map_limit_preference_checkbox_id">map_limit_checkbox_id</string>
 
