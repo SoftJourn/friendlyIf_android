@@ -7,7 +7,34 @@ package com.igorko.accesibleif.utils;
 public interface Const {
 
     enum BuildingsType{
-        ALL, HOSPITALS, PHARMACIES, SHOPS, ATMs;
+        ALL {
+            @Override
+            public String getUrlQueryType() {
+                return null;
+            }
+        }, HOSPITALS {
+            @Override
+            public String getUrlQueryType() {
+                return "hospital";
+            }
+        }, PHARMACIES {
+            @Override
+            public String getUrlQueryType() {
+                return "pharmacy";
+            }
+        }, SHOPS {
+            @Override
+            public String getUrlQueryType() {
+                return "shop";
+            }
+        }, ATMs {
+            @Override
+            public String getUrlQueryType() {
+                return "atm";
+            }
+        };
+
+        public abstract String getUrlQueryType();
     }
 
     String TAG = "tag";
@@ -45,7 +72,7 @@ public interface Const {
 
     String FOLLOW_PREFERENCE = "follow_locaton";
     String MAP_LIMIT_PREFERENCE = "map_limit";
-    String CITY_NAME_PREFERENCE = "city_preference";
+    String CURRENT_CITY_ID_PREFERENCE = "city_id_preference";
 
     float TINY_ZOOM_LEVEL = 16.0f;
     float MAX_ZOOM_LEVEL = 12.3f;
@@ -54,10 +81,6 @@ public interface Const {
     double MAX_LAT_IF_AREA = 48.94;
     double MIN_LON_IF_AREA = 24.75;
     double MAX_LON_IF_AREA = 24.69;
-
-    String CITY_CENTER_LATITUDE_PREFERENCE = "city_center_latitude";
-    String CITY_CENTER_LONGITUDE_PREFERENCE = "city_center_longitude";
-    String CITY_RADIUS = "city_radius";
 
     int RECENT_BACK_PRESSED_TIME = 2000;
 }

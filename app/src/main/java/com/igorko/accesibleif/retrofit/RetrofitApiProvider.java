@@ -1,6 +1,7 @@
 package com.igorko.accesibleif.retrofit;
 
 import com.igorko.accesibleif.R;
+import com.igorko.accesibleif.manager.URLManager;
 import com.igorko.accesibleif.models.Data;
 import com.igorko.accesibleif.utils.Const;
 import com.igorko.accesibleif.utils.ErrorCodes;
@@ -23,19 +24,18 @@ public class RetrofitApiProvider implements Const, ErrorCodes {
     public RetrofitApiProvider() {
 
         mApiService = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(URLManager.getBaseURL())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService.class);
     }
 
-
-    public void getBuildingsByType(final BuildingsType type, final NetworkCallback<Data, BuildingsType> callback) {
+    public void getBuildingsByType(final BuildingsType buildingsType, final NetworkCallback<Data, BuildingsType> callback) {
         Callback<Data> retrofitCallBack =  new Callback<Data>() {
             public void onResponse(Call<Data> call, Response<Data> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     if (callback != null) {
-                        callback.onSuccess(response.body(), type);
+                        callback.onSuccess(response.body(), buildingsType);
                     }
                 }
             }
@@ -45,26 +45,8 @@ public class RetrofitApiProvider implements Const, ErrorCodes {
                 handleError(callback, t);
             }
         };
-
-        switch (type){
-            case ALL:
-                mApiService.getAllBuildings().enqueue(retrofitCallBack);
-                break;
-            case HOSPITALS:
-                mApiService.getHospitalBuildings().enqueue(retrofitCallBack);
-                break;
-            case PHARMACIES:
-                mApiService.getPharmacyBuildings().enqueue(retrofitCallBack);
-                break;
-            case SHOPS:
-                mApiService.getShopBuildings().enqueue(retrofitCallBack);
-                break;
-            case ATMs:
-                mApiService.getATMBuildings().enqueue(retrofitCallBack);
-                break;
-            default:
-                mApiService.getAllBuildings().enqueue(retrofitCallBack);;
-        }
+        String url = URLManager.getDataQuery(buildingsType);
+        mApiService.getData(url).enqueue(retrofitCallBack);
     }
 
     private void handleError(NetworkCallback<Data, BuildingsType> callback, Throwable t){

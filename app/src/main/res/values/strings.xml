@@ -68,11 +68,6 @@
     <string name="city_limit_message">Ви вийшли за межі міста</string>
     <string name="select_current_city">Виберіть поточне місто</string>
 
-    <string-array name="cityesArray">
-        <item>Івано-Франківськ</item>
-        <item>Львів</item>
-    </string-array>
-
     <string name="location_preference_checkbox_id">location_checkbox_id</string>
     <string name="map_limit_preference_checkbox_id">map_limit_checkbox_id</string>
 

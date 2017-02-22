@@ -10,6 +10,7 @@ import android.view.View;
 import com.igorko.accesibleif.R;
 import com.igorko.accesibleif.manager.CityManager;
 import com.igorko.accesibleif.manager.PreferencesManager;
+import com.igorko.accesibleif.models.City;
 import com.igorko.accesibleif.utils.DialogUtils;
 import com.igorko.accesibleif.utils.LocationUtils;
 
@@ -23,6 +24,8 @@ public class SettingsFagment extends PreferenceFragment {
     private CheckBoxPreference mLocationPreference;
     private CheckBoxPreference mEnableUpdateLocationPreference;
     private ListPreference mCityListPeference;
+    private City mCurrentCity;
+    private CityManager mCityManager;
 
     public static SettingsFagment newInstance() {
         SettingsFagment settingsFagment = new SettingsFagment();
@@ -38,6 +41,7 @@ public class SettingsFagment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCityManager = new CityManager();
         addPreferencesFromResource(R.xml.settings_screen);
 
         mMapLimitPreference = (CheckBoxPreference) findPreference(getString(R.string.map_limit_preference_checkbox_id));
@@ -69,11 +73,13 @@ public class SettingsFagment extends PreferenceFragment {
         });
 
         mCityListPeference = (ListPreference) findPreference(getString(R.string.city_list_preference_id));
-        mCityListPeference.setSummary(CityManager.getCurrentCity());
+        mCityListPeference.setEntries(mCityManager.getCitiesNames());
+        mCityListPeference.setEntryValues(mCityManager.getCitiesId());
+        mCityListPeference.setSummary(mCityManager.getCurrentCity().getCityName());
 
         mCityListPeference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                preference.setDefaultValue(CityManager.getCurrentCity());
+                mCityListPeference.setValue(mCityManager.getCurrentCity().getCityName());
                 return true;
             }
         });
@@ -81,9 +87,10 @@ public class SettingsFagment extends PreferenceFragment {
         mCityListPeference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                String selectedCity = String.valueOf(newValue);
-                CityManager.setCurrentCity(selectedCity);
-                mCityListPeference.setSummary(selectedCity);
+                int selectedCityid = Integer.valueOf((String) newValue);
+                City selectedCity = mCityManager.getCityById(selectedCityid);
+                mCityManager.setCurrentCity(selectedCity);
+                mCityListPeference.setSummary(selectedCity.getCityName());
                 return true;
             }
         });
@@ -92,21 +99,10 @@ public class SettingsFagment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
+        mCurrentCity = mCityManager.getCurrentCity();
         mMapLimitPreference.setChecked(PreferencesManager.isMapLimitSetted());
         mLocationPreference.setChecked(LocationUtils.getInstance().isLocationEnabled());
         mEnableUpdateLocationPreference.setChecked(PreferencesManager.isFollowingLocation());
-        mCityListPeference.setSummary(getSavedCurrentCity());
-    }
-
-    private String getSavedCurrentCity() {
-        String currentCity = CityManager.getCurrentCity();
-        if(!currentCity.isEmpty()){
-            mCityListPeference.setSummary(CityManager.getCurrentCity());
-        }else{
-            String[] cityesArray = getResources().getStringArray(R.array.cityesArray);
-            currentCity = cityesArray[0];
-            mCityListPeference.setSummary(currentCity);
-        }
-        return currentCity;
+        mCityListPeference.setSummary(mCurrentCity.getCityName());
     }
 }

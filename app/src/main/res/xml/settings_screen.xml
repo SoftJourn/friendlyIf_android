@@ -38,8 +38,6 @@
 
     <ListPreference
         android:defaultValue="1"
-        android:entries="@array/cityesArray"
-        android:entryValues="@array/cityesArray"
         android:key="@string/city_list_preference_id"
         android:textColor="@color/setting_text_color" />
 </PreferenceScreen>

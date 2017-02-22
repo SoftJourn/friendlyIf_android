@@ -48,7 +48,6 @@ import com.igorko.accesibleif.manager.IDataManager;
 import com.igorko.accesibleif.manager.PreferencesManager;
 import com.igorko.accesibleif.models.Data;
 import com.igorko.accesibleif.models.Element;
-import com.igorko.accesibleif.retrofit.NetworkCallback;
 import com.igorko.accesibleif.services.LocationService;
 import com.igorko.accesibleif.utils.CameraUtils;
 import com.igorko.accesibleif.utils.Const;
@@ -81,8 +80,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private float mZoomLevel;
     private float mPreviousZoomLevel;
     private CameraPosition mCameraPosition;
-    private NetworkCallback<Data, BuildingsType> mNetworkCallback;
-    private boolean mIsActivityVisible = true;
     private long mOnRecentBackPressedTime;
 
     public void onStart() {
@@ -108,31 +105,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         String appTitle;
 
-        mNetworkCallback = new NetworkCallback<Data, BuildingsType>() {
-            @Override
-            public void onSuccess(Data response, BuildingsType type) {
-                if (mIsActivityVisible) {
-                    onResponseSuccess(response);
-                }
-            }
-
-            @Override
-            public void onError(int errorMsgStringId) {
-                if (mIsActivityVisible) {
-                    showSnackbarMassage(getString(errorMsgStringId));
-                    hideProgress();
-                }
-            }
-        };
-
         if (savedInstanceState == null) {
             appTitle = getAppTitle(ALL_ACSSESIBLE_BUILDINGS);
-            if (NetworkUtils.isOnline()) {
-                showProgress();
-                mDataManager.getData(mSelectedType);
-            } else {
-                showSnackbarMassage(getString(R.string.no_internet_connection));
-            }
         } else {
             mElementList = savedInstanceState.getParcelableArrayList(ELEMENT_LIST_EXTRA);
             mSelectedMenuPosition = savedInstanceState.getInt(SELECTED_MENU_POSITION_EXTRA, 0);
@@ -263,7 +237,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
         }
 
-        if(isGetData){
+        if (isGetData) {
             if (NetworkUtils.isOnline()) {
                 showProgress();
                 mDataManager.getData(mSelectedType);
@@ -273,6 +247,16 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         }
 
         mSelectedMenuPosition = --position;
+    }
+
+    private void getData(BuildingsType type) {
+        if (!NetworkUtils.isOnline()) {
+            showSnackbarMassage(getString(R.string.no_internet_connection));
+            return;
+        }
+
+        showProgress();
+        mDataManager.getData(mSelectedType);
     }
 
     @Override
@@ -291,7 +275,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
          /*For screen rotation before request call*/
         if (mElementList == null) {
-            mDataManager.getData(mSelectedType);
+            getData(mSelectedType);
             moveToCenterIf(mMap, true);
         }
 
@@ -407,9 +391,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         }
     }
 
+    // TODO
     private void moveToCenterIf(GoogleMap googleMap, boolean zoom) {
-        float ratushaLatitude = NumberUtils.getFloat(R.dimen.ratusha_latitude);
-        float ratushaLongitude = NumberUtils.getFloat(R.dimen.ratusha_longitude);
+        //TODO
+        float ratushaLatitude = NumberUtils.getFloat(R.dimen.IF_center_latitude);
+        float ratushaLongitude = NumberUtils.getFloat(R.dimen.IF_center_longitude);
 
         LatLng centerIFPosition = new LatLng(ratushaLatitude, ratushaLongitude);
         if (googleMap != null) {
@@ -537,7 +523,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mLocationDataReceiver, new IntentFilter(LOCATION_DATA_FILTER_NAME));
-        mIsActivityVisible = true;
     }
 
     @Override
@@ -545,7 +530,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(
                 mLocationDataReceiver);
-        mIsActivityVisible = false;
         hideProgress();
     }
 
@@ -665,11 +649,13 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
     @Override
     public void onReceivedData(Data data, BuildingsType type) {
+        hideProgress();
         onResponseSuccess(data);
     }
 
     @Override
     public void onDataError(int msgErrorId) {
+        hideProgress();
         showSnackbarMassage(getString(msgErrorId));
     }
 }

@@ -26,13 +26,15 @@ public class CameraUtils implements Const {
         double cameraLatitude = cameraTarget.latitude;
         double cameraLontitude = cameraTarget.longitude;
 
-        double ratushaLatitude = (double)(NumberUtils.getFloat(R.dimen.ratusha_latitude));
-        double ratushaLontitute = (double)(NumberUtils.getFloat(R.dimen.ratusha_longitude));
+        double ratushaLatitude = (double)(NumberUtils.getFloat(R.dimen.IF_center_latitude));
+        double ratushaLontitute = (double)(NumberUtils.getFloat(R.dimen.IF_center_longitude));
 
         double deltaLat = cameraLatitude - ratushaLatitude;
         double deltaLon = cameraLontitude - ratushaLontitute;
 
-        float cityRadius = NumberUtils.getFloat(R.dimen.if_city_radius);
+//       TODO
+        float cityRadius = NumberUtils.getFloat(R.dimen.IF_city_radius);
+        
         float circleIfDistance = cityRadius / NumberUtils.getFloat(R.dimen.earth_diameter) * 360.0f;
         float circlePointDistance = (float) Math.sqrt(Math.pow(deltaLat, 2) + Math.pow(deltaLon, 2));
 
@@ -46,9 +48,10 @@ public class CameraUtils implements Const {
         } return null;
     }
 
+//       TODO center city
     public static void moveToCenterIf(GoogleMap googleMap, boolean zoom, boolean mapIsTouched) {
-        float ratushaLatitude = NumberUtils.getFloat(R.dimen.ratusha_latitude);
-        float ratushaLongitude = NumberUtils.getFloat(R.dimen.ratusha_longitude);
+        float ratushaLatitude = NumberUtils.getFloat(R.dimen.IF_center_latitude);
+        float ratushaLongitude = NumberUtils.getFloat(R.dimen.IF_center_longitude);
 
         LatLng centerIFPosition = new LatLng(ratushaLatitude, ratushaLongitude);
         if (googleMap != null) {
