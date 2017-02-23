@@ -283,6 +283,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
          /*For screen rotation before request call*/
         if (mElementList == null) {
+            if(!PreferencesManager.getInstance().isFirstTime()){
+                getData(mSelectedType);
+            }
             moveToCenterCity(true);
         }
 
