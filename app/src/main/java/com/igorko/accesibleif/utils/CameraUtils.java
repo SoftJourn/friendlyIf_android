@@ -5,6 +5,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.igorko.accesibleif.R;
+import com.igorko.accesibleif.manager.CityManager;
+import com.igorko.accesibleif.models.City;
 
 /**
  * Created by Igorko on 16.11.2016.
@@ -24,43 +26,44 @@ public class CameraUtils implements Const {
 
     private static LatLng moveIntoCityCircleArea(LatLng cameraTarget){
         double cameraLatitude = cameraTarget.latitude;
-        double cameraLontitude = cameraTarget.longitude;
+        double cameraLongitude = cameraTarget.longitude;
 
-        double ratushaLatitude = (double)(NumberUtils.getFloat(R.dimen.IF_center_latitude));
-        double ratushaLontitute = (double)(NumberUtils.getFloat(R.dimen.IF_center_longitude));
+        CityManager cityManager = new CityManager();
+        City currentCity = cityManager.getCurrentCity();
+        LatLng cityCenterCoordinates = currentCity.getCityCenter();
 
-        double deltaLat = cameraLatitude - ratushaLatitude;
-        double deltaLon = cameraLontitude - ratushaLontitute;
+        double cityCenterLatitude = cityCenterCoordinates.latitude;
+        double cityCenterLongitute = cityCenterCoordinates.longitude;
 
-//       TODO
-        float cityRadius = NumberUtils.getFloat(R.dimen.IF_city_radius);
+        double deltaLat = cameraLatitude - cityCenterLatitude;
+        double deltaLon = cameraLongitude - cityCenterLongitute;
+        float cityRadius = currentCity.getCityRadius();
         
-        float circleIfDistance = cityRadius / NumberUtils.getFloat(R.dimen.earth_diameter) * 360.0f;
+        float circleCityDistance = cityRadius / NumberUtils.getFloat(R.dimen.earth_diameter) * 360.0f;
         float circlePointDistance = (float) Math.sqrt(Math.pow(deltaLat, 2) + Math.pow(deltaLon, 2));
 
-        double distanceKoef = circleIfDistance / circlePointDistance;
+        double distanceKoef = circleCityDistance / circlePointDistance;
 
-        if (distanceKoef < 1) {
-            double pointLat = ratushaLatitude + deltaLat * distanceKoef;
-            double pointLon = ratushaLontitute + deltaLon * distanceKoef;
+        if (distanceKoef < 0.9) {
+            double pointLat = cityCenterLatitude + deltaLat * distanceKoef;
+            double pointLon = cityCenterLongitute + deltaLon * distanceKoef;
 
             return new LatLng(pointLat, pointLon);
         } return null;
     }
 
-//       TODO center city
-    public static void moveToCenterIf(GoogleMap googleMap, boolean zoom, boolean mapIsTouched) {
-        float ratushaLatitude = NumberUtils.getFloat(R.dimen.IF_center_latitude);
-        float ratushaLongitude = NumberUtils.getFloat(R.dimen.IF_center_longitude);
+    public static void moveToCenterCity(GoogleMap googleMap, boolean zoom, boolean mapIsTouched) {
+        CityManager cityManager = new CityManager();
+        City currentCity = cityManager.getCurrentCity();
+        LatLng cityCenterCoordinates = currentCity.getCityCenter();
 
-        LatLng centerIFPosition = new LatLng(ratushaLatitude, ratushaLongitude);
         if (googleMap != null) {
             Log.d(TAG, Boolean.valueOf(mapIsTouched).toString());
             if (!mapIsTouched) {
                 if (zoom) {
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(centerIFPosition, 18.0f));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cityCenterCoordinates, 18.0f));
                 } else {
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(centerIFPosition));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(cityCenterCoordinates));
                 }
             }
         }

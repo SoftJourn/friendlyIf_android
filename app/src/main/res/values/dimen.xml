@@ -4,10 +4,4 @@
     <dimen name="progress_size">45dp</dimen>
     <dimen name="about_text_size">16dp</dimen>
     <item name="earth_diameter" type="dimen" format="float">40000.0</item>
-
-    <!--TODO DELETE-->
-    <item name="IF_center_latitude" type="dimen" format="float">48.9227</item>
-    <item name="IF_center_longitude" type="dimen" format="float">24.7103</item>
-    <item name="IF_city_radius" type="dimen" format="float">5.0</item>
-
 </resources>

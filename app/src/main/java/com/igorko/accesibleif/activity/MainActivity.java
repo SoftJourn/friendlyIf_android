@@ -43,9 +43,11 @@ import com.igorko.accesibleif.R;
 import com.igorko.accesibleif.fragments.AboutUsFagment;
 import com.igorko.accesibleif.fragments.HowItsWorkFagment;
 import com.igorko.accesibleif.fragments.SettingsFagment;
+import com.igorko.accesibleif.manager.CityManager;
 import com.igorko.accesibleif.manager.DataManager;
 import com.igorko.accesibleif.manager.IDataManager;
 import com.igorko.accesibleif.manager.PreferencesManager;
+import com.igorko.accesibleif.models.City;
 import com.igorko.accesibleif.models.Data;
 import com.igorko.accesibleif.models.Element;
 import com.igorko.accesibleif.services.LocationService;
@@ -57,7 +59,6 @@ import com.igorko.accesibleif.utils.LocationUtils;
 import com.igorko.accesibleif.utils.MapUtils;
 import com.igorko.accesibleif.utils.MarkerUtils;
 import com.igorko.accesibleif.utils.NetworkUtils;
-import com.igorko.accesibleif.utils.NumberUtils;
 import com.mikepenz.materialdrawer.Drawer;
 import java.util.ArrayList;
 
@@ -271,7 +272,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             if (LocationUtils.isLocationEnabled() && mMyLocation != null) {
                 displayLocation(mMyLocation);
             } else {
-                moveToCenterIf(googleMap, true);
+                moveToCenterCity(googleMap, true);
             }
         } else {
             mMarkerList = MarkerUtils.getInstance().addMarkers(googleMap, mMarkerList);
@@ -279,7 +280,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
          /*For screen rotation before request call*/
         if (mElementList == null) {
-            moveToCenterIf(mMap, true);
+            moveToCenterCity(mMap, true);
         }
 
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -361,7 +362,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                     remove((SettingsFagment) settingsFragment).commit();
 
             if (PreferencesManager.isMapLimitSetted() && mMap != null) {
-                CameraUtils.moveToCenterIf(mMap, false, false);
+                CameraUtils.moveToCenterCity(mMap, false, false);
             }
         }
 
@@ -394,20 +395,17 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         }
     }
 
-    // TODO
-    private void moveToCenterIf(GoogleMap googleMap, boolean zoom) {
-        //TODO
-        float ratushaLatitude = NumberUtils.getFloat(R.dimen.IF_center_latitude);
-        float ratushaLongitude = NumberUtils.getFloat(R.dimen.IF_center_longitude);
-
-        LatLng centerIFPosition = new LatLng(ratushaLatitude, ratushaLongitude);
-        if (googleMap != null) {
+    public void moveToCenterCity(GoogleMap googleMap, boolean zoom) {
+        CityManager cityManager = new CityManager();
+        City currentCity = cityManager.getCurrentCity();
+        LatLng cityCenterCoordinates = currentCity.getCityCenter();
+        if (mMap != null) {
             Log.d(TAG, Boolean.valueOf(mMapIsTouched).toString());
             if (!mMapIsTouched) {
                 if (zoom) {
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(centerIFPosition, 18.0f));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cityCenterCoordinates, 18.0f));
                 } else {
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(centerIFPosition));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(cityCenterCoordinates));
                 }
             }
         }
@@ -557,7 +555,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
                 initToolbar(getString(R.string.app_name));
                 if (PreferencesManager.isMapLimitSetted() && mMap != null) {
-                    CameraUtils.moveToCenterIf(mMap, false, false);
+                    CameraUtils.moveToCenterCity(mMap, false, false);
                 }
             }
 
