@@ -13,13 +13,30 @@ import java.util.List;
 
 public class CityManager implements Const {
 
+    private static CityManager mInstance;
     private static final int DEFAULT_CITY_ID = 0;
     static SharedPreferences mSharedPref = PreferenceManager.getDefaultSharedPreferences(AppContext.getInstance());
     static SharedPreferences.Editor mEditor = mSharedPref.edit();
     private CityStorage mCityStorage;
+    private boolean cityWasRecentlyChanged = false;
+
+    public static CityManager getInstance() {
+        if (mInstance == null) {
+            mInstance = new CityManager();
+        }
+        return mInstance;
+    }
 
     public CityManager() {
         mCityStorage = CityStorage.getInstance();
+    }
+
+    public boolean isCityWasRecentlyChanged() {
+        return cityWasRecentlyChanged;
+    }
+
+    public void setCityWasRecentlyChanged(boolean cityWasRecentlyChanged) {
+        this.cityWasRecentlyChanged = cityWasRecentlyChanged;
     }
 
     public void setCurrentCity(City currentCity) {

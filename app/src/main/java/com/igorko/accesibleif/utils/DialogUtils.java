@@ -43,7 +43,7 @@ public class DialogUtils {
                         cityManager.setCurrentCity(selectedCity);
                         PreferencesManager.getInstance().setAppFirstStart();
 
-                        ((MainActivity)activity).moveToCenterCity(null, true);
+                        ((MainActivity)activity).moveToCenterCity(true);
                         ((MainActivity)activity).getData(Const.BuildingsType.ALL);
                     }
                 })

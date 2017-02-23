@@ -79,6 +79,7 @@ public class SettingsFagment extends PreferenceFragment {
         mCityListPeference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 preference.setDefaultValue(mCityManager.getCurrentCity().getCityId());
+                mCityManager.getInstance().setCityWasRecentlyChanged(true);
                 return true;
             }
         });

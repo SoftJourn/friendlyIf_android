@@ -189,6 +189,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         if (position < SETTINGS) {
             hideInfo();
+            if(CityManager.getInstance().isCityWasRecentlyChanged()){
+                moveToCenterCity(false);
+            }
         }
 
         boolean isGetData = false;
@@ -272,7 +275,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             if (LocationUtils.isLocationEnabled() && mMyLocation != null) {
                 displayLocation(mMyLocation);
             } else {
-                moveToCenterCity(googleMap, true);
+                moveToCenterCity(true);
             }
         } else {
             mMarkerList = MarkerUtils.getInstance().addMarkers(googleMap, mMarkerList);
@@ -280,7 +283,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
          /*For screen rotation before request call*/
         if (mElementList == null) {
-            moveToCenterCity(mMap, true);
+            moveToCenterCity(true);
         }
 
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -292,11 +295,13 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                     ArrayList<MarkerOptions> markerList = MarkerUtils.getInstance().getAllMarkers(mElementList, mZoomLevel);
                     MarkerUtils.getInstance().addMarkers(googleMap, markerList);
                 }
-
                 if (!mMapIsTouched && PreferencesManager.isMapLimitSetted()) {
-                    MapUtils.setCheckLimits(mMap, mCameraPosition, mMapIsTouched, mZoomLevel);
+                    CityManager cityManager = CityManager.getInstance();
+                    if(!cityManager.isCityWasRecentlyChanged()) {
+                        MapUtils.setCheckLimits(mMap, mCameraPosition, mMapIsTouched, mZoomLevel);
+                    }
+                    CityManager.getInstance().setCityWasRecentlyChanged(false);
                 }
-
                 mPreviousZoomLevel = cameraPosition.zoom;
                 mCameraPosition = cameraPosition;
             }
@@ -395,7 +400,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         }
     }
 
-    public void moveToCenterCity(GoogleMap googleMap, boolean zoom) {
+    public void moveToCenterCity(boolean zoom) {
         CityManager cityManager = new CityManager();
         City currentCity = cityManager.getCurrentCity();
         LatLng cityCenterCoordinates = currentCity.getCityCenter();
