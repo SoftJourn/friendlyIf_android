@@ -40,6 +40,8 @@ public interface Const {
     String TAG = "tag";
     String BASE_URL = "http://overpass-api.de";
 
+    String APP_FIRST_START_PREFERENCE = "app_first_start";
+
     int ALL_ACSSESIBLE_BUILDINGS = 1;
     int HOSPITAL_ACSSESIBLE_BUILDINGS = 2;
     int PHARMACY_ACSSESIBLE_BUILDINGS = 3;

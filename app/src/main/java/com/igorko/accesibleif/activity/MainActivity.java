@@ -51,6 +51,7 @@ import com.igorko.accesibleif.models.Element;
 import com.igorko.accesibleif.services.LocationService;
 import com.igorko.accesibleif.utils.CameraUtils;
 import com.igorko.accesibleif.utils.Const;
+import com.igorko.accesibleif.utils.DialogUtils;
 import com.igorko.accesibleif.utils.Extras;
 import com.igorko.accesibleif.utils.LocationUtils;
 import com.igorko.accesibleif.utils.MapUtils;
@@ -92,8 +93,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSavedInstanceState = savedInstanceState;
-
         mDataManager = new DataManager(this);
+
+        if(PreferencesManager.getInstance().isFirstTime()){
+            DialogUtils.showSelectCityAlert(MainActivity.this);
+        }
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -249,14 +253,14 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         mSelectedMenuPosition = --position;
     }
 
-    private void getData(BuildingsType type) {
+    public void getData(BuildingsType type) {
         if (!NetworkUtils.isOnline()) {
             showSnackbarMassage(getString(R.string.no_internet_connection));
             return;
         }
 
         showProgress();
-        mDataManager.getData(mSelectedType);
+        mDataManager.getData(type);
     }
 
     @Override
@@ -275,7 +279,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
          /*For screen rotation before request call*/
         if (mElementList == null) {
-            getData(mSelectedType);
             moveToCenterIf(mMap, true);
         }
 

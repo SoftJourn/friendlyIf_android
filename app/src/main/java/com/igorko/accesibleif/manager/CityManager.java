@@ -19,7 +19,7 @@ public class CityManager implements Const {
     private CityStorage mCityStorage;
 
     public CityManager() {
-        mCityStorage = new CityStorage();
+        mCityStorage = CityStorage.getInstance();
     }
 
     public void setCurrentCity(City currentCity) {

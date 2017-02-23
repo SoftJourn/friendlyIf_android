@@ -24,7 +24,6 @@ public class SettingsFagment extends PreferenceFragment {
     private CheckBoxPreference mLocationPreference;
     private CheckBoxPreference mEnableUpdateLocationPreference;
     private ListPreference mCityListPeference;
-    private City mCurrentCity;
     private CityManager mCityManager;
 
     public static SettingsFagment newInstance() {
@@ -101,7 +100,6 @@ public class SettingsFagment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mCurrentCity = mCityManager.getCurrentCity();
         mMapLimitPreference.setChecked(PreferencesManager.isMapLimitSetted());
         mLocationPreference.setChecked(LocationUtils.getInstance().isLocationEnabled());
         mEnableUpdateLocationPreference.setChecked(PreferencesManager.isFollowingLocation());

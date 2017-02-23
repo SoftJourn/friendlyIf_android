@@ -11,10 +11,18 @@ import java.util.List;
 
 public class CityStorage {
 
-    public List<City> mCitiesList;
+    private static CityStorage mInstance;
+    private List<City> mCitiesList;
 
     public CityStorage() {
         initCitiesList();
+    }
+
+    public static CityStorage getInstance() {
+        if (mInstance == null) {
+            mInstance = new CityStorage();
+        }
+        return mInstance;
     }
 
     private void initCitiesList(){
