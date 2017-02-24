@@ -35,12 +35,16 @@ public class URLManager implements Const {
     }
 
     private static String getBuildingTypeUrlPart(BuildingsType type) {
-        switch (type) {
-            case ALL: {
-                return "(node[wheelchair];way[wheelchair];relation[wheelchair];);out geom;";
+        if (!type.equals(BuildingsType.SHOPS)) {
+            switch (type) {
+                case ALL: {
+                    return "(node[wheelchair];way[wheelchair];relation[wheelchair];);out geom;";
+                }
+                default:
+                    return String.format("(node[wheelchair][\"amenity\"=\"%1$s\"];way[wheelchair][\"amenity\"=\"%1$s\"];relation[wheelchair][\"amenity\"=\"%1$s\"];); out geom;", type.getUrlQueryType());
             }
-            default:
-                return String.format("(node[wheelchair][\"amenity\"=\"%1$s\"];way[wheelchair][\"amenity\"=\"%1$s\"];relation[wheelchair][\"amenity\"=\"%1$s\"];); out geom;", type.getUrlQueryType());
+        } else {
+            return String.format("(node[wheelchair][\"%1$s\"];way[wheelchair][\"%1$s\"];relation[wheelchair][\"%1$s\"];); out geom;", type.getUrlQueryType());
         }
     }
 }
