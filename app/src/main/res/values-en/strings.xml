@@ -37,7 +37,7 @@
     <string name="inaccessible_buildings_description">Inaccessible buildings - are buildings that are equipped with ramps, but they are uncomfortable and made for look more than a convenience. These buildings are marked in yellow;</string>
     <string name="available_buildings_description">These buildings to which people with disabilities as well as the baby strollers can easily get in. Color of these buildings - green.</string>
 
-    <string name="description1">The program is designed to inform about the availability and quality of ramps to the buildings in Ivano-Frankivsk. The application gets data from service</string>
+    <string name="description1">The program enables users to keep track of the availability and quality of ramps at the entrances of buildings in a city. The application gets data from service</string>
     <string name="http_open_street_map_url">http://www.openstreetmap.org</string>
     <string name="open_street_map_url">www.openstreetmap.org</string>
     <string name="description2">and anyone can change the data</string>

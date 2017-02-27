@@ -43,17 +43,22 @@ public class CameraUtils implements Const {
         double deltaLat = cameraLatitude - cityCenterLatitude;
         double deltaLon = cameraLongitude - cityCenterLongitute;
         double cityRadius = currentCity.getCityRadius();
-        
+
+        double oversight = 0.2;
+
         double circleCityDistance = cityRadius / Double.valueOf(String.valueOf(NumberUtils.getFloat(R.dimen.earth_diameter))) * 360.0d;
         double circlePointDistance = Math.sqrt(Math.pow(deltaLat, 2) + Math.pow(deltaLon, 2));
 
-        double distanceKoef = circleCityDistance / circlePointDistance;
+        double distanceKoef = (circleCityDistance + oversight) / circlePointDistance;
 
         if (distanceKoef < 0.9) {
-            double pointLat = cityCenterLatitude + deltaLat * distanceKoef;
-            double pointLon = cityCenterLongitute + deltaLon * distanceKoef;
 
-            return new LatLng(pointLat, pointLon);
+//            return user to city border
+//            double pointLat = cityCenterLatitude + deltaLat * distanceKoef;
+//            double pointLon = cityCenterLongitute + deltaLon * distanceKoef;
+
+            LatLng cityCenter = currentCity.getCityCenter();
+            return cityCenter;
         } return null;
     }
 
