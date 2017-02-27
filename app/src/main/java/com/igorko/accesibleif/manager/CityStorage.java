@@ -1,6 +1,8 @@
 package com.igorko.accesibleif.manager;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.igorko.accesibleif.R;
+import com.igorko.accesibleif.app.AppContext;
 import com.igorko.accesibleif.models.City;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,8 +28,11 @@ public class CityStorage {
     }
 
     private void initCitiesList(){
-        City ifCity = new City(0, "Івано-Франківськ", 10.0f, new LatLng(48.922712, 24.710207));
-        City lvivCity = new City(1, "Львів", 9.0f, new LatLng(49.841019, 24.028023));
+
+        AppContext appContext = AppContext.getInstance();
+
+        City ifCity = new City(0, appContext.getString(R.string.IF_city), 10.0f, new LatLng(48.922712, 24.710207));
+        City lvivCity = new City(1, appContext.getString(R.string.Lviv_city), 9.0f, new LatLng(49.841019, 24.028023));
 
         mCitiesList = new LinkedList<>();
         mCitiesList.add(ifCity);

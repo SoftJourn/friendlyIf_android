@@ -3,6 +3,9 @@
     <string name="app_info">Friendly City information</string>
     <string name="google_app_id">AIzaSyDJXsBp-s0B7mwB2HtaBkoFAsE319cWHwM</string>
 
+    <string name="IF_city">Івано-Франківськ</string>
+    <string name="Lviv_city">Львів</string>
+
     <string name="title_activity_maps">Map</string>
     <string name="no_name">Без Назви</string>
     <string name="action_settings">Settings</string>

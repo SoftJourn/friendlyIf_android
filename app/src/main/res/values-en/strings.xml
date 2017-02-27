@@ -3,6 +3,9 @@
     <string name="app_info">Friendly IF information</string>
     <string name="google_app_id">AIzaSyDJXsBp-s0B7mwB2HtaBkoFAsE319cWHwM</string>
 
+    <string name="IF_city">Ivano-Frankivsk</string>
+    <string name="Lviv_city">Lviv</string>
+
     <string name="title_activity_maps">Map</string>
     <string name="no_name">Unknown name</string>
     <string name="action_settings">Settings</string>
