@@ -19,8 +19,13 @@ public class CameraUtils implements Const {
         if (newCameraTarget != null) {
             map.animateCamera(CameraUpdateFactory.newLatLng(newCameraTarget));
         }
-        if (currentZoom < MAX_ZOOM_LEVEL) {
-            map.animateCamera(CameraUpdateFactory.zoomTo(MAX_ZOOM_LEVEL));
+
+        CityManager cityManager = new CityManager();
+        City currentCity = cityManager.getCurrentCity();
+        float zoomLevel = (float) currentCity.getCityRadius() * CITY_ZOOM_KOEF;
+
+        if (currentZoom < zoomLevel) {
+            map.animateCamera(CameraUpdateFactory.zoomTo(zoomLevel));
         }
     }
 

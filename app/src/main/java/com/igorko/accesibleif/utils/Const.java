@@ -77,7 +77,7 @@ public interface Const {
     String CURRENT_CITY_ID_PREFERENCE = "city_id_preference";
 
     float TINY_ZOOM_LEVEL = 16.0f;
-    float MAX_ZOOM_LEVEL = 12.3f;
+    float CITY_ZOOM_KOEF = 1.2f;
 
     double MIN_LAT_IF_AREA = 48.87;
     double MAX_LAT_IF_AREA = 48.94;

@@ -9,10 +9,17 @@ public class City {
 
     private int cityId;
     private String cityName;
-    private LatLng cityCenter;
     private double cityRadius;
+    private LatLng cityCenter;
     private LatLng topRectPoint;
     private LatLng bottomRectPoint;
+
+    public City(int cityId, String cityName, float cityRadius, LatLng cityCenter) {
+        this.cityId = cityId;
+        this.cityName = cityName;
+        this.cityCenter = cityCenter;
+        this.cityRadius = cityRadius;
+    }
 
     public int getCityId() {
         return cityId;
@@ -38,6 +45,14 @@ public class City {
         this.cityRadius = cityRadius;
     }
 
+    public LatLng getCityCenter() {
+        return cityCenter;
+    }
+
+    public void setCityCenter(LatLng cityCenter) {
+        this.cityCenter = cityCenter;
+    }
+
     public LatLng getTopRectPoint() {
         double lat = cityCenter.latitude;
         double lon = cityCenter.longitude;
@@ -48,9 +63,7 @@ public class City {
         double deltaLat = radiusInKm / 111.1;
         double deltaLong = radiusInKm / kmInLongitudeDegree;
 
-        double minLat = lat - deltaLat;
         double maxLat = lat + deltaLat;
-        double minLon = lon - deltaLong;
         double maxLon = lon + deltaLong;
 
         return new LatLng(maxLat, maxLon);
@@ -67,25 +80,8 @@ public class City {
         double deltaLong = radiusInKm / kmInLongitudeDegree;
 
         double minLat = lat - deltaLat;
-        double maxLat = lat + deltaLat;
         double minLon = lon - deltaLong;
-        double maxLon = lon + deltaLong;
 
         return new LatLng(minLat, minLon);
-    }
-
-    public LatLng getCityCenter() {
-        return cityCenter;
-    }
-
-    public void setCityCenter(LatLng cityCenter) {
-        this.cityCenter = cityCenter;
-    }
-
-    public City(int cityId, String cityName, LatLng cityCenter, float cityRadius) {
-        this.cityId = cityId;
-        this.cityName = cityName;
-        this.cityCenter = cityCenter;
-        this.cityRadius = cityRadius;
     }
 }
