@@ -20,7 +20,7 @@
             android:defaultValue="false"
             android:key="@string/location_preference_checkbox_id"
             android:summary="@string/enable_current_location_desription"
-            android:textColor="@color/color_accent"
+            android:textColor="@color/colorAccent"
             android:textStyle="bold"
             android:title="@string/enable_current_location" />
 

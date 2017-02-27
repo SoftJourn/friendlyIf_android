@@ -4,10 +4,24 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="android:textColor">@color/setting_text_color</item>
+        <item name="android:textColorPrimary">@color/setting_text_color</item>
+        <item name="android:textColorSecondary">@color/setting_text_color</item>
+
         <item name="android:alertDialogTheme">@style/DialogTheme</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/setting_text_color</item>
+        <item name="colorPrimaryDark">@color/setting_text_color</item>
+        <item name="colorAccent">@color/setting_text_color</item>
         <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+    </style>
+
+    <style name="how_its_work_style" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/how_its_works_text_color</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:background">@color/background_color</item>
     </style>
 </resources>

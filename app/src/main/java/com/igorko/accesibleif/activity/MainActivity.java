@@ -100,11 +100,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             DialogUtils.showSelectCityAlert(MainActivity.this);
         }
 
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            setTheme(R.style.AppStyle);
-        }
-
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 

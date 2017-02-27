@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/open_street_map_url"
-            android:textColor="@color/color_primary"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/about_text_size" />
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/developer_email"
-            android:textColor="@color/color_primary"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/about_text_size" />
 
         <ImageView
@@ -123,7 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/data_adding_email_1"
-            android:textColor="@color/color_primary"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/about_text_size" />
 
         <ImageView
@@ -144,7 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/data_adding_email_2"
-            android:textColor="@color/color_primary"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/about_text_size" />
 
         <ImageView
