@@ -37,10 +37,10 @@ public class CameraUtils implements Const {
 
         double deltaLat = cameraLatitude - cityCenterLatitude;
         double deltaLon = cameraLongitude - cityCenterLongitute;
-        float cityRadius = currentCity.getCityRadius();
+        double cityRadius = currentCity.getCityRadius();
         
-        float circleCityDistance = cityRadius / NumberUtils.getFloat(R.dimen.earth_diameter) * 360.0f;
-        float circlePointDistance = (float) Math.sqrt(Math.pow(deltaLat, 2) + Math.pow(deltaLon, 2));
+        double circleCityDistance = cityRadius / Double.valueOf(String.valueOf(NumberUtils.getFloat(R.dimen.earth_diameter))) * 360.0d;
+        double circlePointDistance = Math.sqrt(Math.pow(deltaLat, 2) + Math.pow(deltaLon, 2));
 
         double distanceKoef = circleCityDistance / circlePointDistance;
 

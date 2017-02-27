@@ -10,7 +10,7 @@ public class City {
     private int cityId;
     private String cityName;
     private LatLng cityCenter;
-    private float cityRadius;
+    private double cityRadius;
     private LatLng topRectPoint;
     private LatLng bottomRectPoint;
 
@@ -30,22 +30,48 @@ public class City {
         this.cityName = cityName;
     }
 
-    public float getCityRadius() {
+    public double getCityRadius() {
         return cityRadius;
     }
 
-    public void setCityRadius(float cityRadius) {
+    public void setCityRadius(double cityRadius) {
         this.cityRadius = cityRadius;
     }
 
     public LatLng getTopRectPoint() {
-        float delta = cityRadius*0.7071f / 40000f * 360f;
-        return new LatLng(cityCenter.latitude+delta, cityCenter.longitude+delta);
+        double lat = cityCenter.latitude;
+        double lon = cityCenter.longitude;
+
+        double kmInLongitudeDegree = 111.320 * Math.cos( lat / 180.0 * Math.PI);
+        double radiusInKm = getCityRadius();
+
+        double deltaLat = radiusInKm / 111.1;
+        double deltaLong = radiusInKm / kmInLongitudeDegree;
+
+        double minLat = lat - deltaLat;
+        double maxLat = lat + deltaLat;
+        double minLon = lon - deltaLong;
+        double maxLon = lon + deltaLong;
+
+        return new LatLng(maxLat, maxLon);
     }
 
     public LatLng getBottomRectPoint() {
-        float delta = cityRadius*0.7071f / 40000f * 360f;
-        return new LatLng(cityCenter.latitude-delta, cityCenter.longitude-delta);
+        double lat = cityCenter.latitude;
+        double lon = cityCenter.longitude;
+
+        double kmInLongitudeDegree = 111.320 * Math.cos( lat / 180.0 * Math.PI);
+        double radiusInKm = getCityRadius();
+
+        double deltaLat = radiusInKm / 111.1;
+        double deltaLong = radiusInKm / kmInLongitudeDegree;
+
+        double minLat = lat - deltaLat;
+        double maxLat = lat + deltaLat;
+        double minLon = lon - deltaLong;
+        double maxLon = lon + deltaLong;
+
+        return new LatLng(minLat, minLon);
     }
 
     public LatLng getCityCenter() {

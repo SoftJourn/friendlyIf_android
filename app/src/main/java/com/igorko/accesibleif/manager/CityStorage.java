@@ -27,7 +27,7 @@ public class CityStorage {
 
     private void initCitiesList(){
         City ifCity = new City(0, "Івано-Франківськ", new LatLng(48.922712, 24.710207), 10.0f);
-        City lvivCity = new City(1, "Львів", new LatLng(49.841019, 24.028023), 15.0f);
+        City lvivCity = new City(1, "Львів", new LatLng(49.841019, 24.028023), 9.0f);
 
         mCitiesList = new LinkedList<>();
         mCitiesList.add(ifCity);
