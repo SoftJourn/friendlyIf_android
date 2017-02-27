@@ -70,27 +70,28 @@ public class MarkerUtils implements Const{
                             Tags tags = element.getTags();
                             if (tags != null && tags.getShop() != null) {
                                 markerIcon = IconsUtils.setShopIcon(element);
-                            }
-                            if (element.getTags() != null) {
-                                if (element.getTags().getRailway() != null) {
-                                    String railway = element.getTags().getRailway();
-                                    if (railway.equals(STATION)) {
-                                        markerIcon = IconsUtils.setRailwayIcon(element);
+                            }else if (element.getTags() != null) {
+                                    if (element.getTags().getRailway() != null) {
+                                        String railway = element.getTags().getRailway();
+                                        if (railway.equals(STATION)) {
+                                            markerIcon = IconsUtils.setRailwayIcon(element);
+                                        }
+                                    } else if (element.getTags().getAeroway() != null) {
+                                        String aeroway = element.getTags().getAeroway();
+                                        if (aeroway.equals(AERODROME)) {
+                                            markerIcon = IconsUtils.setAirportIcon(element);
+                                        }
+                                    } else if (element.getTags().getOffice() != null) {
+                                        String office = element.getTags().getOffice();
+                                        if (office != null && office.equals(GOVERNMENT)) {
+                                            markerIcon = IconsUtils.setAdministrationIcon(element);
+                                        }
                                     }
-                                } else if (element.getTags().getAeroway() != null) {
-                                    String aeroway = element.getTags().getAeroway();
-                                    if (aeroway.equals(AERODROME)) {
-                                        markerIcon = IconsUtils.setAirportIcon(element);
-                                    }
-                                } else if (element.getTags().getOffice() != null) {
-                                    String office = element.getTags().getOffice();
-                                    if (office != null && office.equals(GOVERNMENT)) {
-                                        markerIcon = IconsUtils.setAdministrationIcon(element);
-                                    }
+                                } else {
+                                    markerIcon = IconsUtils.setDefaultIcon(element);
                                 }
                             }
                         }
-                    }
                     MarkerOptions marker = addMarkerElement(element, markerIcon);
                     markerList.add(marker);
                 }
