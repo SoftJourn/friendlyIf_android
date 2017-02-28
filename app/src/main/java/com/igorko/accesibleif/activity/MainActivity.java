@@ -581,7 +581,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
             return true;
         }
-        return super.onKeyDown(keyCode, event);
+        return false;
     }
 
     public void initGoogleApiClient() {
