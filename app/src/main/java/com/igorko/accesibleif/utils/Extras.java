@@ -15,5 +15,6 @@ public interface Extras {
     String TOUCH_EXTRA = "touch";
     String ZOOM_LEVEL_EXTRA = "zoom_level";
     String IS_ICONS_TINY = "is_tiny";
+    String SELECTED_CITY_ID = "selected_city_id";
 
 }

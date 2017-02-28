@@ -19,19 +19,17 @@ public class DialogUtils {
 
     private static int mSelectedCityId = 0;
 
-    public static void showSelectCityAlert(final Activity activity){
-
+    public static void showSelectCityAlert(final Activity activity, int selectedCityID){
         CityManager cityManager = new CityManager();
         String[] citiesNames = cityManager.getCitiesNames();
-        int defaultSelection = 0;
-
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
         alertDialogBuilder.setTitle(activity.getString(R.string.select_current_city))
-                .setSingleChoiceItems(citiesNames, defaultSelection, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(citiesNames, selectedCityID, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mSelectedCityId = which;
+                        ((MainActivity)activity).saveSelectedCityId(which);
                     }
                 })
                 .setPositiveButton(activity.getString(R.string.btn_select), new DialogInterface.OnClickListener() {
@@ -41,7 +39,8 @@ public class DialogUtils {
                         City selectedCity = cityStorage.getCityById(mSelectedCityId);
                         CityManager cityManager = new CityManager();
                         cityManager.setCurrentCity(selectedCity);
-                        PreferencesManager.getInstance().setAppFirstStart();
+
+                        PreferencesManager.getInstance().setAppNotFirstTime();
 
                         ((MainActivity)activity).moveToCenterCity(true);
                         ((MainActivity)activity).getData(Const.BuildingsType.ALL);

@@ -83,6 +83,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private float mPreviousZoomLevel;
     private CameraPosition mCameraPosition;
     private long mOnRecentBackPressedTime;
+    private int mSelectedCityID;
 
     public void onStart() {
         initGoogleApiClient(MainActivity.this);
@@ -95,11 +96,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         setContentView(R.layout.activity_main);
         mSavedInstanceState = savedInstanceState;
         mDataManager = new DataManager(this);
-
-        if(PreferencesManager.getInstance().isFirstTime()){
-            DialogUtils.showSelectCityAlert(MainActivity.this);
-        }
-
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -114,6 +110,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             mMapIsTouched = savedInstanceState.getBoolean(TOUCH_EXTRA, false);
             mZoomLevel = savedInstanceState.getFloat(ZOOM_LEVEL_EXTRA, 0);
             mIsIconsTiny = savedInstanceState.getBoolean(IS_ICONS_TINY, false);
+            mSelectedCityID = savedInstanceState.getInt(SELECTED_CITY_ID, 0);
             mMarkerList = MarkerUtils.getInstance().getAllMarkers(mElementList, mZoomLevel);
 
             if (mMyLocation != null) {
@@ -121,6 +118,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
             appTitle = getAppTitle(mSelectedMenuPosition + 1);
         }
+
+        if(PreferencesManager.getInstance().appGetFirstTimeRun() == APP_STARTED_FIRST_TIME){
+            DialogUtils.showSelectCityAlert(MainActivity.this, mSelectedCityID);
+        }
+
         initToolbar(appTitle);
         mDrawer = initLeftDrawer(appTitle, mSelectedMenuPosition);
 
@@ -278,7 +280,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
          /*For screen rotation before request call*/
         if (mElementList == null) {
-            if(!PreferencesManager.getInstance().isFirstTime()){
+            if(PreferencesManager.getInstance().appGetFirstTimeRun() == 1){
                 getData(mSelectedType);
             }
             moveToCenterCity(true);
@@ -520,6 +522,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         savedInstanceState.putBoolean(TOUCH_EXTRA, mMapIsTouched);
         savedInstanceState.putFloat(ZOOM_LEVEL_EXTRA, mZoomLevel);
         savedInstanceState.putBoolean(IS_ICONS_TINY, mIsIconsTiny);
+        savedInstanceState.putInt(SELECTED_CITY_ID, mSelectedCityID);
     }
 
     @Override
@@ -661,5 +664,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     public void onDataError(int msgErrorId) {
         hideProgress();
         showSnackbarMassage(getString(msgErrorId));
+    }
+
+    public void saveSelectedCityId(int selectedCityId) {
+        mSelectedCityID = selectedCityId;
     }
 }
