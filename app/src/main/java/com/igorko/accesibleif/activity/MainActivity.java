@@ -20,6 +20,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -40,6 +41,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.igorko.accesibleif.R;
+import com.igorko.accesibleif.app.AppContext;
 import com.igorko.accesibleif.fragments.AboutUsFagment;
 import com.igorko.accesibleif.fragments.HowItsWorkFagment;
 import com.igorko.accesibleif.fragments.SettingsFagment;
@@ -119,7 +121,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             appTitle = getAppTitle(mSelectedMenuPosition + 1);
         }
 
-        if(PreferencesManager.getInstance().appGetFirstTimeRun() == APP_STARTED_FIRST_TIME){
+        if (PreferencesManager.getInstance().appGetFirstTimeRun() == APP_STARTED_FIRST_TIME) {
             DialogUtils.showSelectCityAlert(MainActivity.this, mSelectedCityID);
         }
 
@@ -133,27 +135,37 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             @Override
             public void onClick(View view) {
                 if (LocationUtils.isLocationEnabled()) {
-                    if (mMyLocation != null) {
-                        moveToCurrentLocation(mMyLocation);
-                    } else {
-                        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-                        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                            LocationUtils.getInstance().marshmallowGPSPremissionCheck(MainActivity.this);
+
+                    //Check for permission
+                    if ((android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) && (ContextCompat.checkSelfPermission(getApplicationContext(),
+                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                            && (ContextCompat.checkSelfPermission(getApplicationContext(),
+                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                                Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                                Manifest.permission.ACCESS_FINE_LOCATION)) {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.location_permissions_needed), Toast.LENGTH_SHORT).show();
+
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                    REQUEST_LOCATION);
                         } else {
-                            if (LocationUtils.isLocationEnabled()) {
-                                if (mMap != null && mMyLocation != null) {
-                                    mMap.animateCamera(CameraUpdateFactory.newLatLng(
-                                            new LatLng(mMyLocation.getLatitude(), mMyLocation.getLongitude())));
-                                } else {
-                                    showSnackbarMassage(getString(R.string.cant_detect_location));
-                                }
-                            } else {
-                                showSnackbarMassage(getString(R.string.gps_not_enabled_settings));
-                            }
-                            if (mMyLocation != null) {
-                                moveToCurrentLocation(mMyLocation);
-                            }
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                    REQUEST_LOCATION);
                         }
+                        return;
+                    } else {
+                        startFindMyLocationService();
+                    }
+
+                    if (mMap != null && mMyLocation != null) {
+                        moveToCurrentLocation(mMyLocation);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(
+                                new LatLng(mMyLocation.getLatitude(), mMyLocation.getLongitude())));
+                    } else {
+                        showSnackbarMassage(getString(R.string.cant_detect_location));
                     }
                 } else {
                     showSnackBarMassageWithButton(view, getString(R.string.gps_not_enabled_settings), getString(R.string.go));
@@ -183,7 +195,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         if (position < SETTINGS) {
             hideInfo();
-            if(CityManager.getInstance().isCityWasRecentlyChanged()){
+            if (CityManager.getInstance().isCityWasRecentlyChanged()) {
                 CityManager.getInstance().setCityWasRecentlyChanged(false);
                 moveToCenterCity(false);
             }
@@ -278,7 +290,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
          /*For screen rotation before request call*/
         if (mElementList == null) {
-            if(PreferencesManager.getInstance().appGetFirstTimeRun() == 1){
+            if (PreferencesManager.getInstance().appGetFirstTimeRun() == 1) {
                 getData(mSelectedType);
             }
             moveToCenterCity(true);
@@ -295,7 +307,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 }
                 if (!mMapIsTouched && PreferencesManager.isMapLimitSetted()) {
                     CityManager cityManager = CityManager.getInstance();
-                    if(!cityManager.isCityWasRecentlyChanged()) {
+                    if (!cityManager.isCityWasRecentlyChanged()) {
                         MapUtils.setCheckLimits(mMap, mCameraPosition, mMapIsTouched, mZoomLevel);
                     }
                     CityManager.getInstance().setCityWasRecentlyChanged(false);
@@ -377,8 +389,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     }
 
     private void startFindMyLocationService() {
-        Intent locationServiceIntent = new Intent(MainActivity.this, LocationService.class);
-        startService(locationServiceIntent);
+        if (!AppContext.isLocationServiseStarted) {
+            Intent locationServiceIntent = new Intent(MainActivity.this, LocationService.class);
+            startService(locationServiceIntent);
+            AppContext.isLocationServiseStarted = true;
+        }
     }
 
     private void moveToCurrentLocation(Location location) {

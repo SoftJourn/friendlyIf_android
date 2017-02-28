@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 public class AppContext extends Application {
 
     private static AppContext mInstance;
+    public static boolean isLocationServiseStarted = false;
 
     @Override
     public void onCreate() {
