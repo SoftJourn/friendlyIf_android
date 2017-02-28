@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     private int mSelectedCityID;
 
     public void onStart() {
-        initGoogleApiClient(MainActivity.this);
+        initGoogleApiClient();
         super.onStart();
     }
 
@@ -176,9 +176,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     @Override
     protected void onDrawerMenuItemSelected(int position) {
         if (LocationUtils.isLocationEnabled()) {
-            initGoogleApiClient(MainActivity.this);
-            onConnected(mSavedInstanceState);
-
             if (mMyLocation != null) {
                 displayLocation(mMyLocation);
             }
@@ -187,6 +184,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         if (position < SETTINGS) {
             hideInfo();
             if(CityManager.getInstance().isCityWasRecentlyChanged()){
+                CityManager.getInstance().setCityWasRecentlyChanged(false);
                 moveToCenterCity(false);
             }
         }
@@ -586,7 +584,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         return super.onKeyDown(keyCode, event);
     }
 
-    public void initGoogleApiClient(MainActivity activity) {
+    public void initGoogleApiClient() {
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
