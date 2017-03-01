@@ -174,6 +174,13 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         });
     }
 
+    private void showSnackbarMassage(String massage) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), massage, Snackbar.LENGTH_LONG);
+        TextView snackViewText = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        snackViewText.setTextColor(Color.WHITE);
+        snackbar.show();
+    }
+
     private void showSnackBarMassageWithButton(View view, String snackbarMessage, String buttonName) {
         Snackbar snackbar = Snackbar.make(view, snackbarMessage, Snackbar.LENGTH_LONG)
                 .setAction(buttonName, new View.OnClickListener() {
@@ -182,6 +189,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                         showSettings();
                     }
                 });
+        snackbar.show();
+
+        TextView snackViewText = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        snackViewText.setTextColor(Color.WHITE);
         snackbar.show();
     }
 
@@ -515,12 +526,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         } else {
             return true;
         }
-    }
-
-    private void showSnackbarMassage(String massage) {
-        Snackbar snackbar = Snackbar.make(mCoordinatorLayout, massage, Snackbar.LENGTH_LONG);
-        ((TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
-        snackbar.show();
     }
 
     @Override
