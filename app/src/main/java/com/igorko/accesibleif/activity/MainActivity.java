@@ -120,6 +120,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         if (PreferencesManager.getInstance().appGetFirstTimeRun() == APP_STARTED_FIRST_TIME) {
             DialogUtils.showSelectCityAlert(MainActivity.this, mSelectedCityID);
+        }else if(mSavedInstanceState == null){
+            getData(BuildingsType.ALL);
         }
 
         initToolbar(appTitle);
