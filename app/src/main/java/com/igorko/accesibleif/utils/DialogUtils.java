@@ -85,6 +85,12 @@ public class DialogUtils {
                     public void onClick(DialogInterface dialog, int which) {
                         locationPreference.setChecked(LocationUtils.getInstance().isLocationEnabled());
                     }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        locationPreference.setChecked(LocationUtils.getInstance().isLocationEnabled());
+                    }
                 });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
