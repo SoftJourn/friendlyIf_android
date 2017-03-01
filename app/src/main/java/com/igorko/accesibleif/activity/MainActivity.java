@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -68,7 +67,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
     private IDataManager mDataManager;
     private BuildingsType mSelectedType = BuildingsType.ALL;
-    private CoordinatorLayout mCoordinatorLayout;
     private Bundle mSavedInstanceState;
     private Drawer.Result mDrawer;
     private GoogleMap mMap;
@@ -98,7 +96,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         setContentView(R.layout.activity_main);
         mSavedInstanceState = savedInstanceState;
         mDataManager = new DataManager(this);
-        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         String appTitle;
@@ -332,10 +329,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-    }
-
-    public void initMarkerList(ArrayList<MarkerOptions> markerList) {
-        mMarkerList = markerList;
     }
 
     private void onResponseSuccess(Data response) {

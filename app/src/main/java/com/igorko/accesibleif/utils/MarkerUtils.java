@@ -24,7 +24,8 @@ import java.util.List;
 public class MarkerUtils implements Const{
 
     private static MarkerUtils mInstance;
-    private Marker mMarker = null;
+    private MarkerOptions mCurrentLocationMarker;
+    private Marker mLastCurrentLocationMarker;
 
     public static MarkerUtils getInstance() {
         if (mInstance == null) {
@@ -148,6 +149,11 @@ public class MarkerUtils implements Const{
     public ArrayList<MarkerOptions> addMarkers(GoogleMap googleMap, ArrayList<MarkerOptions> markerList) {
         if (googleMap != null) {
             googleMap.clear();
+
+            if(mCurrentLocationMarker != null) {
+                mLastCurrentLocationMarker = googleMap.addMarker(mCurrentLocationMarker);
+            }
+
             if (markerList != null && !markerList.isEmpty()) {
                 for (MarkerOptions markerOptions : markerList) {
                     if (markerOptions != null) {
@@ -164,25 +170,23 @@ public class MarkerUtils implements Const{
             LatLng currentPosition = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
             String pinName = AppContext.getInstance().getString(R.string.current_location);
             BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.current_location);
-            MarkerOptions currentPositionMarker = new MarkerOptions()
+            
+            mCurrentLocationMarker = new MarkerOptions()
                     .title(pinName)
                     .position(currentPosition)
                     .icon(bitmapDescriptor);
 
-            if (map != null) {
-                //for updating marker
-                if (mMarker != null) {
-                    mMarker.remove();
-                    mMarker = map.addMarker(currentPositionMarker);
-                } else {
-                    mMarker = map.addMarker(currentPositionMarker);
+            if (map != null && mCurrentLocationMarker != null) {
+                if(mLastCurrentLocationMarker != null){
+                    mLastCurrentLocationMarker.remove();
                 }
+                mLastCurrentLocationMarker = map.addMarker(mCurrentLocationMarker);
 
                 if (PreferencesManager.isFollowingLocation()) {
                     map.animateCamera(CameraUpdateFactory.newLatLng(currentPosition));
                 }
             }
         }
-        return mMarker;
+        return mLastCurrentLocationMarker;
     }
 }
