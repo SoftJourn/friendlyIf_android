@@ -38,63 +38,65 @@ public class MarkerUtils implements Const{
         ArrayList<MarkerOptions> markerList = new ArrayList<MarkerOptions>();
         if (elementList != null && elementList.size() > 0) {
             if ((zoomLevel == 0.0) || (zoomLevel >= TINY_ZOOM_LEVEL)) {
-                BitmapDescriptor markerIcon = null;
                 for (Element element : elementList) {
-                    if (element != null && element.getTags() != null && element.getTags().getAmenity() != null) {
-                        String amenity = element.getTags().getAmenity();
-                        if (amenity != null) {
-                            switch (amenity) {
-                                case AMENITY_PHAPMACY: {
-                                    markerIcon = IconsUtils.setPharmacyIcon(element);
-                                    break;
-                                }
-                                case AMENITY_SHOP: {
-                                    markerIcon = IconsUtils.setShopIcon(element);
-                                    break;
-                                }
-                                case AMENITY_HOSPITAL: {
-                                    markerIcon = IconsUtils.setHospitalIcon(element);
-                                    break;
-                                }
-                                case AMENITY_ATM: {
-                                    markerIcon = IconsUtils.setATMIcon(element);
-                                    break;
-                                }
-                                default: {
-                                    markerIcon = IconsUtils.setDefaultIcon(element);
-                                    break;
+                    if(element != null){
+                        BitmapDescriptor markerIcon = null;
+                        if (element.getTags() != null && element.getTags().getAmenity() != null) {
+                            String amenity = element.getTags().getAmenity();
+                            if (amenity != null) {
+                                switch (amenity) {
+                                    case AMENITY_PHAPMACY: {
+                                        markerIcon = IconsUtils.setPharmacyIcon(element);
+                                        break;
+                                    }
+                                    case AMENITY_SHOP: {
+                                        markerIcon = IconsUtils.setShopIcon(element);
+                                        break;
+                                    }
+                                    case AMENITY_HOSPITAL: {
+                                        markerIcon = IconsUtils.setHospitalIcon(element);
+                                        break;
+                                    }
+                                    case AMENITY_ATM: {
+                                        markerIcon = IconsUtils.setATMIcon(element);
+                                        break;
+                                    }
+                                    default: {
+                                        markerIcon = IconsUtils.setDefaultIcon(element);
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                    } else {
-                        if(element != null) {
+                        } else {
                             Tags tags = element.getTags();
                             if (tags != null && tags.getShop() != null) {
                                 markerIcon = IconsUtils.setShopIcon(element);
-                            }else if (element.getTags() != null) {
-                                    if (element.getTags().getRailway() != null) {
-                                        String railway = element.getTags().getRailway();
-                                        if (railway.equals(STATION)) {
-                                            markerIcon = IconsUtils.setRailwayIcon(element);
-                                        }
-                                    } else if (element.getTags().getAeroway() != null) {
-                                        String aeroway = element.getTags().getAeroway();
-                                        if (aeroway.equals(AERODROME)) {
-                                            markerIcon = IconsUtils.setAirportIcon(element);
-                                        }
-                                    } else if (element.getTags().getOffice() != null) {
-                                        String office = element.getTags().getOffice();
-                                        if (office != null && office.equals(GOVERNMENT)) {
-                                            markerIcon = IconsUtils.setAdministrationIcon(element);
-                                        }
+                            } else if (element.getTags() != null) {
+                                if (element.getTags().getRailway() != null) {
+                                    String railway = element.getTags().getRailway();
+                                    if (railway.equals(STATION)) {
+                                        markerIcon = IconsUtils.setRailwayIcon(element);
+                                    }
+                                } else if (element.getTags().getAeroway() != null) {
+                                    String aeroway = element.getTags().getAeroway();
+                                    if (aeroway.equals(AERODROME)) {
+                                        markerIcon = IconsUtils.setAirportIcon(element);
+                                    }
+                                } else if (element.getTags().getOffice() != null) {
+                                    String office = element.getTags().getOffice();
+                                    if (office != null && office.equals(GOVERNMENT)) {
+                                        markerIcon = IconsUtils.setAdministrationIcon(element);
                                     }
                                 } else {
                                     markerIcon = IconsUtils.setDefaultIcon(element);
                                 }
+                            } else {
+                                markerIcon = IconsUtils.setDefaultIcon(element);
                             }
                         }
-                    MarkerOptions marker = addMarkerElement(element, markerIcon);
-                    markerList.add(marker);
+                        MarkerOptions marker = addMarkerElement(element, markerIcon);
+                        markerList.add(marker);
+                    }
                 }
             } else if (zoomLevel < TINY_ZOOM_LEVEL) {
                 markerList.clear();
