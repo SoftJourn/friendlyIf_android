@@ -64,6 +64,7 @@ public interface Const {
     String AERODROME = "aerodrome";
     String STATION = "station";
     String GOVERNMENT = "government";
+    String ADMINISTRATIVE = "administrative";
 
     String WHEELCHAIR_YES = "yes";
     String WHEELCHAIR_NO = "no";

@@ -76,16 +76,26 @@ public class MarkerUtils implements Const{
                                     String railway = element.getTags().getRailway();
                                     if (railway.equals(STATION)) {
                                         markerIcon = IconsUtils.setRailwayIcon(element);
+                                    }else {
+                                        markerIcon = IconsUtils.setDefaultIcon(element);
                                     }
                                 } else if (element.getTags().getAeroway() != null) {
                                     String aeroway = element.getTags().getAeroway();
                                     if (aeroway.equals(AERODROME)) {
                                         markerIcon = IconsUtils.setAirportIcon(element);
+                                    }else {
+                                        markerIcon = IconsUtils.setDefaultIcon(element);
                                     }
                                 } else if (element.getTags().getOffice() != null) {
                                     String office = element.getTags().getOffice();
-                                    if (office != null && office.equals(GOVERNMENT)) {
-                                        markerIcon = IconsUtils.setAdministrationIcon(element);
+                                    if (office != null) {
+                                        if(office.equals(GOVERNMENT)) {
+                                            markerIcon = IconsUtils.setAdministrationIcon(element);
+                                        }else if (office.equals(ADMINISTRATIVE)) {
+                                            markerIcon = IconsUtils.setAdministrationIcon(element);
+                                        }else {
+                                            markerIcon = IconsUtils.setDefaultIcon(element);
+                                        }
                                     }
                                 } else {
                                     markerIcon = IconsUtils.setDefaultIcon(element);
