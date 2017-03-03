@@ -17,26 +17,19 @@ import com.igorko.accesibleif.models.City;
 
 public class DialogUtils {
 
-    private static int mSelectedCityId = 0;
-
-    public static void showSelectCityAlert(final Activity activity, int selectedCityID){
+    public static void showSelectCityAlert(final Activity activity, final int selectedCityID){
         CityManager cityManager = new CityManager();
         String[] citiesNames = cityManager.getCitiesNames();
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
         alertDialogBuilder.setTitle(activity.getString(R.string.select_current_city))
                 .setSingleChoiceItems(citiesNames, selectedCityID, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedCityId) {
+                        dialog.dismiss();
+                        ((MainActivity)activity).saveSelectedCityId(selectedCityId);
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mSelectedCityId = which;
-                        ((MainActivity)activity).saveSelectedCityId(which);
-                    }
-                })
-                .setPositiveButton(activity.getString(R.string.btn_select), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
                         CityStorage cityStorage = CityStorage.getInstance();
-                        City selectedCity = cityStorage.getCityById(mSelectedCityId);
+                        City selectedCity = cityStorage.getCityById(selectedCityId);
                         CityManager cityManager = new CityManager();
                         cityManager.setCurrentCity(selectedCity);
 
@@ -45,15 +38,10 @@ public class DialogUtils {
                         ((MainActivity)activity).moveToCenterCity(true);
                         ((MainActivity)activity).getData(Const.BuildingsType.ALL);
                     }
-                })
-                .setNegativeButton(activity.getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
                 });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+        alertDialog.setCancelable(false);
     }
 
     public static void showGotoOpenstreetmapSiteAlert(final Activity activity){
