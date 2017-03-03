@@ -571,6 +571,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                     }
                     getAppData(true);
                 }
+
+                displayLocation(mMyLocation);
             }
 
             Fragment howItsFragment = getFragmentManager().findFragmentByTag(HOW_ITS_WORK_TAG);
