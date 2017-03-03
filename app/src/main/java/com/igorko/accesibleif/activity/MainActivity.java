@@ -286,8 +286,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
         if (LocationUtils.isLocationEnabled()) {
             displayLocation(mMyLocation);
-        } else {
-            moveToCenterCity(true);
         }
 
          /*For screen rotation before request call*/
