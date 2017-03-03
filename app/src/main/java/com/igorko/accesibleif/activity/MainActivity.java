@@ -553,21 +553,24 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             Fragment aboutFragment = getFragmentManager().findFragmentByTag(ABOUT_FRAGMENT_TAG);
             if (aboutFragment != null) {
                 getFragmentManager().beginTransaction().
-                        remove((AboutUsFagment) aboutFragment).commit();
+                        remove(aboutFragment).commit();
                 initToolbar(getString(R.string.app_name));
             }
 
             Fragment settingsFragment = getFragmentManager().findFragmentByTag(SETTINGS_FRAGMENT_TAG);
             if (settingsFragment != null) {
                 getFragmentManager().beginTransaction().
-                        remove((SettingsFagment) settingsFragment).commit();
+                        remove(settingsFragment).commit();
 
                 initToolbar(getString(R.string.app_name));
-                if (mMap != null) {
-                    CameraUtils.moveToCenterCity(mMap, false, false);
-                }
 
-                getAppData(true);
+                if(CityManager.getInstance().isCityWasRecentlyChanged()) {
+                    CityManager.getInstance().setCityWasRecentlyChanged(false);
+                    if (mMap != null) {
+                        CameraUtils.moveToCenterCity(mMap, false, false);
+                    }
+                    getAppData(true);
+                }
             }
 
             Fragment howItsFragment = getFragmentManager().findFragmentByTag(HOW_ITS_WORK_TAG);
