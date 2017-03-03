@@ -112,9 +112,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             mSelectedCityID = savedInstanceState.getInt(SELECTED_CITY_ID, 0);
             mMarkerList = MarkerUtils.getInstance().getAllMarkers(mElementList, mZoomLevel);
 
-            if (mMyLocation != null) {
-                displayLocation(mMyLocation);
-            }
+            displayLocation(mMyLocation);
+
             appTitle = getAppTitle(mSelectedMenuPosition + 1);
         }
 
@@ -159,7 +158,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                         startFindMyLocationService();
                     }
 
-                    if (mMap != null && mMyLocation != null) {
+                    if (mMap != null && mMyLocation != null && LocationUtils.isLocationEnabled()) {
                         moveToCurrentLocation(mMyLocation);
                         mMap.animateCamera(CameraUpdateFactory.newLatLng(
                                 new LatLng(mMyLocation.getLatitude(), mMyLocation.getLongitude())));
@@ -197,11 +196,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
     @Override
     protected void onDrawerMenuItemSelected(int position) {
-        if (LocationUtils.isLocationEnabled()) {
-            if (mMyLocation != null) {
-                displayLocation(mMyLocation);
-            }
-        }
+        displayLocation(mMyLocation);
 
         if (position < SETTINGS) {
             hideInfo();
@@ -288,14 +283,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        if (mSavedInstanceState == null) {
-            if (LocationUtils.isLocationEnabled() && mMyLocation != null) {
-                displayLocation(mMyLocation);
-            } else {
-                moveToCenterCity(true);
-            }
+
+        if (LocationUtils.isLocationEnabled()) {
+            displayLocation(mMyLocation);
         } else {
-            mMarkerList = MarkerUtils.getInstance().addMarkers(googleMap, mMarkerList);
+            moveToCenterCity(true);
         }
 
          /*For screen rotation before request call*/
@@ -337,10 +329,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         mElementList = response.getElements();
         ArrayList<MarkerOptions> markerList = MarkerUtils.getInstance().getAllMarkers(mElementList, mZoomLevel);
         MarkerUtils.getInstance().addMarkers(mMap, markerList);
-
-        if (mMyLocation != null) {
-            displayLocation(mMyLocation);
-        }
+        displayLocation(mMyLocation);
         hideProgress();
     }
 
@@ -415,10 +404,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             MarkerUtils.getInstance().showCurrentLocation(mMap, location);
             mMyLocation = location;
         } else {
-            Toast.makeText(this, getString(R.string.current_location_not_available), Toast.LENGTH_LONG);
+            hideLocation();
         }
     }
-
     public void moveToCenterCity(boolean zoom) {
         CityManager cityManager = new CityManager();
         City currentCity = cityManager.getCurrentCity();
@@ -487,10 +475,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
         }
     };
 
-    public GoogleMap getMap() {
-        return mMap;
-    }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
 
@@ -545,6 +529,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 mLocationDataReceiver, new IntentFilter(LOCATION_DATA_FILTER_NAME));
     }
 
+    private void hideLocation() {
+        MarkerUtils.getInstance().hideCurrentLocation();
+        mMyLocation = null;
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -587,6 +576,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
 
             if (aboutFragment == null && settingsFragment == null && howItsFragment == null) {
                 //user is on main screen now
+
+                displayLocation(mMyLocation);
+
                 if (System.currentTimeMillis() - mOnRecentBackPressedTime > RECENT_BACK_PRESSED_TIME) {
                     mOnRecentBackPressedTime = System.currentTimeMillis();
                     Toast.makeText(this, getString(R.string.press_again_to_exit), Toast.LENGTH_SHORT).show();

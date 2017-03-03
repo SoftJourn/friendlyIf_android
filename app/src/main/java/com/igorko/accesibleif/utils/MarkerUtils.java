@@ -71,23 +71,23 @@ public class MarkerUtils implements Const{
                             Tags tags = element.getTags();
                             if (tags != null && tags.getShop() != null) {
                                 markerIcon = IconsUtils.setShopIcon(element);
-                            } else if (element.getTags() != null) {
-                                if (element.getTags().getRailway() != null) {
-                                    String railway = element.getTags().getRailway();
+                            } else if (tags != null) {
+                                if (tags.getRailway() != null) {
+                                    String railway = tags.getRailway();
                                     if (railway.equals(STATION)) {
                                         markerIcon = IconsUtils.setRailwayIcon(element);
                                     }else {
                                         markerIcon = IconsUtils.setDefaultIcon(element);
                                     }
-                                } else if (element.getTags().getAeroway() != null) {
-                                    String aeroway = element.getTags().getAeroway();
+                                } else if (tags.getAeroway() != null) {
+                                    String aeroway = tags.getAeroway();
                                     if (aeroway.equals(AERODROME)) {
                                         markerIcon = IconsUtils.setAirportIcon(element);
                                     }else {
                                         markerIcon = IconsUtils.setDefaultIcon(element);
                                     }
-                                } else if (element.getTags().getOffice() != null) {
-                                    String office = element.getTags().getOffice();
+                                } else if (tags.getOffice() != null) {
+                                    String office = tags.getOffice();
                                     if (office != null) {
                                         if(office.equals(GOVERNMENT)) {
                                             markerIcon = IconsUtils.setAdministrationIcon(element);
@@ -162,7 +162,7 @@ public class MarkerUtils implements Const{
         if (googleMap != null) {
             googleMap.clear();
 
-            if(mCurrentLocationMarker != null) {
+            if(LocationUtils.isLocationEnabled() && mCurrentLocationMarker != null) {
                 mLastCurrentLocationMarker = googleMap.addMarker(mCurrentLocationMarker);
             }
 
@@ -200,5 +200,11 @@ public class MarkerUtils implements Const{
             }
         }
         return mLastCurrentLocationMarker;
+    }
+
+    public void hideCurrentLocation(){
+        if(mLastCurrentLocationMarker != null) {
+            mLastCurrentLocationMarker.remove();
+        }
     }
 }
