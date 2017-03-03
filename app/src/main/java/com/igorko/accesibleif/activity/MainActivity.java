@@ -257,6 +257,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
             }
         }
 
+        getAppData(isGetData);
+        mSelectedMenuPosition = --position;
+    }
+
+    private void getAppData(boolean isGetData){
         if (isGetData) {
             if (NetworkUtils.isOnline()) {
                 showProgress();
@@ -265,8 +270,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                 showSnackbarMassage(getString(R.string.no_internet_connection));
             }
         }
-
-        mSelectedMenuPosition = --position;
     }
 
     public void getData(BuildingsType type) {
@@ -560,9 +563,11 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Co
                         remove((SettingsFagment) settingsFragment).commit();
 
                 initToolbar(getString(R.string.app_name));
-                if (PreferencesManager.isMapLimitSetted() && mMap != null) {
+                if (mMap != null) {
                     CameraUtils.moveToCenterCity(mMap, false, false);
                 }
+
+                getAppData(true);
             }
 
             Fragment howItsFragment = getFragmentManager().findFragmentByTag(HOW_ITS_WORK_TAG);
